@@ -45,14 +45,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} font-sans antialiased`}>
-        <Script
-          id="adsbygoogle"
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5343389597650456"
-          crossOrigin="anonymous"
-          strategy="beforeInteractive"
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                var script = document.createElement('script');
+                script.async = true;
+                script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5343389597650456';
+                script.crossOrigin = 'anonymous';
+                document.head.appendChild(script);
+              })();
+            `,
+          }}
         />
+      </head>
+      <body className={`${inter.variable} font-sans antialiased`}>
         <LangProvider>
           <Header />
           <main className="min-h-screen">{children}</main>
