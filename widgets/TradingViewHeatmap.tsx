@@ -25,6 +25,10 @@ export function TradingViewHeatmap({
     containerRef.current.id = containerId;
 
     try {
+      // Détecter si on est sur mobile (écran < 768px = md breakpoint de Tailwind)
+      const isMobile = window.innerWidth < 768;
+      const widgetHeight = isMobile ? 400 : 640;
+      
       scriptElement = document.createElement("script");
       scriptElement.src =
         "https://s3.tradingview.com/external-embedding/embed-widget-stock-heatmap.js";
@@ -42,7 +46,7 @@ export function TradingViewHeatmap({
         isZoomEnabled: true,
         hasSymbolTooltip: true,
         width: "100%",
-        height: 640,
+        height: widgetHeight,
       });
 
       containerRef.current.appendChild(scriptElement);
@@ -64,12 +68,12 @@ export function TradingViewHeatmap({
   return (
     <div className="w-full">
       {loading && (
-        <div className="w-full h-[640px] bg-slate-100 dark:bg-slate-800 animate-pulse rounded-2xl" />
+        <div className="w-full h-[400px] md:h-[640px] bg-slate-100 dark:bg-slate-800 animate-pulse rounded-2xl" />
       )}
       <div
         ref={containerRef}
         className={`tradingview-widget-container ${loading ? "hidden" : ""}`}
-        style={{ minHeight: "640px" }}
+        style={{ minHeight: "400px" }}
       />
     </div>
   );

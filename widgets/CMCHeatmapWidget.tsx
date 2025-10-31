@@ -24,10 +24,14 @@ export function CMCHeatmapWidget({ theme = "light" }: CMCHeatmapWidgetProps) {
     try {
       containerRef.current.innerHTML = "";
 
+      // Détecter si on est sur mobile (écran < 768px = md breakpoint de Tailwind)
+      const isMobile = window.innerWidth < 768;
+      const widgetHeight = isMobile ? 400 : 640;
+      
       const iframe = document.createElement("iframe");
       iframe.src = "https://coinmarketcap.com/heatmap/";
       iframe.width = "100%";
-      iframe.height = "640";
+      iframe.height = String(widgetHeight);
       iframe.frameBorder = "0";
       iframe.referrerPolicy = "no-referrer-when-downgrade";
       iframe.style.border = "none";
@@ -155,13 +159,13 @@ export function CMCHeatmapWidget({ theme = "light" }: CMCHeatmapWidgetProps) {
       />
       
       {loading && (
-        <div className="w-full h-[640px] bg-slate-100 dark:bg-slate-800 animate-pulse rounded-2xl" />
+        <div className="w-full h-[400px] md:h-[640px] bg-slate-100 dark:bg-slate-800 animate-pulse rounded-2xl" />
       )}
       <div
         ref={containerRef}
         className={`w-full rounded-2xl overflow-hidden ${loading ? "hidden" : ""}`}
         style={{ 
-          minHeight: "640px",
+          minHeight: "400px",
           touchAction: 'pan-y pinch-zoom',
           position: 'relative',
           zIndex: 1

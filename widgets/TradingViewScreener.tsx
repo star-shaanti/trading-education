@@ -32,9 +32,13 @@ export function TradingViewScreener({
         "https://s3.tradingview.com/external-embedding/embed-widget-screener.js";
       scriptElement.async = true;
       scriptElement.type = "text/javascript";
+      // Détecter si on est sur mobile (écran < 768px = md breakpoint de Tailwind)
+      const isMobile = window.innerWidth < 768;
+      const widgetHeight = isMobile ? 400 : 600;
+      
       scriptElement.textContent = JSON.stringify({
         width: "100%",
-        height: 600,
+        height: widgetHeight,
         defaultColumn: String(defaultColumn).toLowerCase(),
         screener_type: market,
         displayCurrency: "USD",
@@ -129,13 +133,13 @@ export function TradingViewScreener({
       />
       
       {loading && (
-        <div className="w-full h-[600px] bg-slate-100 dark:bg-slate-800 animate-pulse rounded-2xl" />
+        <div className="w-full h-[400px] md:h-[600px] bg-slate-100 dark:bg-slate-800 animate-pulse rounded-2xl" />
       )}
       <div
         ref={containerRef}
         className={`tradingview-widget-container ${loading ? "hidden" : ""}`}
         style={{ 
-          minHeight: "600px",
+          minHeight: "400px",
           touchAction: 'pan-y pinch-zoom',
           position: 'relative',
           zIndex: 1

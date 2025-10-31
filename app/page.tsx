@@ -71,13 +71,16 @@ export default function HomePage() {
             <TradingViewScreener market="crypto" defaultColumn="performance" />
           </Card>
         </div>
+        
+        {/* Zone de scroll supplémentaire après le Screener (mobile uniquement) */}
+        <div className="h-[200px] md:h-0 mb-8 md:mb-0 lg:hidden" />
 
         <Card title="Heatmap" className="p-0 overflow-hidden mb-8 md:mb-0">
           <CMCHeatmapWidget />
         </Card>
         
         {/* Zone de scroll supplémentaire après le Heatmap */}
-        <div className="h-32 md:h-20" />
+        <div className="h-[200px] md:h-20" />
 
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
           <a
