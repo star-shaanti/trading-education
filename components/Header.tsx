@@ -72,8 +72,10 @@ export function Header() {
                   <rect x="72" y="22" width="16" height="52" rx="3" fill="#16A34A"/>
                 </svg>
               </div>
-              <span className="hidden sm:inline">Trading Education</span>
-              <span className="sm:hidden">Trading</span>
+              <span className="inline-block">
+                <span className="block">Trading</span>
+                <span className="block">Education</span>
+              </span>
             </Link>
             <div className="flex items-center gap-4">
               <div className="w-10 h-10"></div>
@@ -103,8 +105,10 @@ export function Header() {
                 <rect x="72" y="22" width="16" height="52" rx="3" fill="#16A34A"/>
               </svg>
             </div>
-            <span className="hidden sm:inline">Trading Education</span>
-            <span className="sm:hidden">Trading</span>
+            <span className="inline-block">
+              <span className="block">Trading</span>
+              <span className="block">Education</span>
+            </span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-6">
@@ -132,14 +136,6 @@ export function Header() {
               ) : (
                 <span className="text-xl">🌙</span>
               )}
-            </button>
-
-            <button
-              className="md:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-              aria-label={lang === 'fr' ? "Ouvrir le menu" : "Toggle menu"}
-              aria-expanded="false"
-            >
-              <span className="text-xl">☰</span>
             </button>
           </div>
         </div>

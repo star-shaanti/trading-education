@@ -72,9 +72,12 @@ export default function HomePage() {
           </Card>
         </div>
 
-        <Card title="Heatmap" className="p-0 overflow-hidden">
+        <Card title="Heatmap" className="p-0 overflow-hidden mb-8 md:mb-0">
           <CMCHeatmapWidget />
         </Card>
+        
+        {/* Zone de scroll supplémentaire après le Heatmap */}
+        <div className="h-32 md:h-20" />
 
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
           <a

@@ -6,14 +6,21 @@ import { useLang } from "@/components/LangContext";
 export default function AProposPage() {
   const { lang } = useLang();
   return (
-    <Section title={lang === "fr" ? "À propos de Trading Education" : "About Trading Education"} variant="default">
+    <Section 
+      title={
+        lang === "fr" 
+          ? <>À propos de<br/><span className="block">Trading</span><span className="block">Education</span></>
+          : <>About<br/><span className="block">Trading</span><span className="block">Education</span></>
+      } 
+      variant="default"
+    >
       <div className="max-w-3xl mx-auto prose-custom">
         <div className="card p-8 mb-8">
           <h2 className="text-2xl font-bold mb-4">{lang === "fr" ? "Notre mission" : "Our Mission"}</h2>
           <p className="mb-4">
-            {lang === "fr"
-              ? "Trading Education propose des contenus pédagogiques de qualité et des outils pour aider les traders à progresser et à prendre des décisions éclairées."
-              : "Trading Education is dedicated to providing high-quality educational content and tools to help traders of all levels improve their skills and make informed trading decisions."}
+            {lang === "fr" 
+              ? <>Trading Education propose des contenus pédagogiques de qualité et des outils pour aider les traders à progresser et à prendre des décisions éclairées.</>
+              : <>Trading Education is dedicated to providing high-quality educational content and tools to help traders of all levels improve their skills and make informed trading decisions.</>}
           </p>
           <p className="mb-4">
             {lang === "fr"
@@ -43,9 +50,9 @@ export default function AProposPage() {
         <div className="card p-8 mb-8">
           <h2 className="text-2xl font-bold mb-4">{lang === "fr" ? "Avertissement" : "Disclaimer"}</h2>
           <p className="mb-4">
-            {lang === "fr"
-              ? "Tout le contenu de Trading Education est à but éducatif. Il ne constitue pas un conseil financier."
-              : "All content on Trading Education is provided for educational purposes only. We do not provide financial advice, and our content should not be considered as such."}
+            {lang === "fr" 
+              ? <>Tout le contenu de <span className="inline-block"><span className="block">Trading</span><span className="block">Education</span></span> est à but éducatif. Il ne constitue pas un conseil financier.</>
+              : <>All content on <span className="inline-block"><span className="block">Trading</span><span className="block">Education</span></span> is provided for educational purposes only. We do not provide financial advice, and our content should not be considered as such.</>}
           </p>
           <p className="mb-4">
             {lang === "fr"

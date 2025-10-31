@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
 
 interface SectionProps {
-  title?: string;
-  subtitle?: string;
+  title?: string | ReactNode;
+  subtitle?: string | ReactNode;
   children: ReactNode;
   variant?: "default" | "alt" | "dark";
   className?: string;

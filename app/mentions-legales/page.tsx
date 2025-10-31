@@ -13,7 +13,11 @@ export default function MentionsLegalesPage() {
         <div className="card p-8 mb-8">
           <h2 className="text-2xl font-bold mb-4">{lang === "fr" ? "Informations du site" : "Website Information"}</h2>
           <p className="mb-2">
-            <strong>{lang === "fr" ? "Nom du site:" : "Website Name:"}</strong> Trading Education
+            <strong>{lang === "fr" ? "Nom du site:" : "Website Name:"}</strong>{" "}
+            <span className="inline-block">
+              <span className="block">Trading</span>
+              <span className="block">Education</span>
+            </span>
           </p>
           <p className="mb-2">
             <strong>{lang === "fr" ? "Objectif:" : "Purpose:"}</strong> {lang === "fr" ? "Plateforme éducative proposant guides, outils et informations de marché" : "Educational platform providing trading guides, tools, and market information"}
@@ -23,9 +27,9 @@ export default function MentionsLegalesPage() {
         <div className="card p-8 mb-8">
           <h2 className="text-2xl font-bold mb-4">{lang === "fr" ? "Avertissement de responsabilité" : "Disclaimer of Liability"}</h2>
           <p className="mb-4">
-            {lang === "fr"
-              ? "Les informations de ce site sont fournies à titre éducatif et informatif. Trading Education ne fournit pas de conseils financiers, d'investissement ou de trading."
-              : "The information on this website is provided for educational and informational purposes only. Trading Education does not provide financial, investment, or trading advice."}
+            {lang === "fr" 
+              ? <>Les informations de ce site sont fournies à titre éducatif et informatif. <span className="inline-block"><span className="block">Trading</span><span className="block">Education</span></span> ne fournit pas de conseils financiers, d'investissement ou de trading.</>
+              : <>The information on this website is provided for educational and informational purposes only. <span className="inline-block"><span className="block">Trading</span><span className="block">Education</span></span> does not provide financial, investment, or trading advice.</>}
           </p>
           <p className="mb-4">
             {lang === "fr"
@@ -33,9 +37,9 @@ export default function MentionsLegalesPage() {
               : "All trading involves risk, and you should never trade with money you cannot afford to lose. Past performance is not indicative of future results."}
           </p>
           <p className="mb-4">
-            {lang === "fr"
-              ? "Trading Education n'est pas responsable des pertes ou dommages résultant de l'utilisation des informations, outils ou contenus fournis sur ce site."
-              : "Trading Education is not responsible for any losses or damages resulting from the use of information, tools, or content provided on this website."}
+            {lang === "fr" 
+              ? <>Trading Education n'est pas responsable des pertes ou dommages résultant de l'utilisation des informations, outils ou contenus fournis sur ce site.</>
+              : <>Trading Education is not responsible for any losses or damages resulting from the use of information, tools, or content provided on this website.</>}
           </p>
         </div>
 
@@ -56,9 +60,9 @@ export default function MentionsLegalesPage() {
         <div className="card p-8 mb-8">
           <h2 className="text-2xl font-bold mb-4">{lang === "fr" ? "Propriété intellectuelle" : "Intellectual Property"}</h2>
           <p className="mb-4">
-            {lang === "fr"
-              ? "Tout le contenu de ce site (textes, graphismes, logos, logiciels, etc.) est la propriété de Trading Education ou de ses fournisseurs de contenu et est protégé par le droit d'auteur."
-              : "All content on this website, including text, graphics, logos, and software, is the property of Trading Education or its content suppliers and is protected by copyright laws."}
+            {lang === "fr" 
+              ? <>Tout le contenu de ce site (textes, graphismes, logos, logiciels, etc.) est la propriété de <span className="inline-block"><span className="block">Trading</span><span className="block">Education</span></span> ou de ses fournisseurs de contenu et est protégé par le droit d'auteur.</>
+              : <>All content on this website, including text, graphics, logos, and software, is the property of <span className="inline-block"><span className="block">Trading</span><span className="block">Education</span></span> or its content suppliers and is protected by copyright laws.</>}
           </p>
           <p className="mb-4">
             {lang === "fr"

@@ -21,7 +21,16 @@ export function Footer() {
       aboutUs: "About Us",
       legalNotice: "Legal Notice",
       privacyCookies: "Privacy & Cookies",
-      copyright: `© ${currentYear} Trading Education. All rights reserved.`,
+      copyright: (
+        <>
+          © {currentYear}{" "}
+          <span className="inline-block">
+            <span className="block">Trading</span>
+            <span className="block">Education</span>
+          </span>
+          . All rights reserved.
+        </>
+      ),
       disclaimer: "Educational content only. Trading involves risk of loss.",
     },
     fr: {
@@ -37,7 +46,16 @@ export function Footer() {
       aboutUs: "À propos",
       legalNotice: "Mentions légales",
       privacyCookies: "Confidentialité et Cookies",
-      copyright: `© ${currentYear} Trading Education. Tous droits réservés.`,
+      copyright: (
+        <>
+          © {currentYear}{" "}
+          <span className="inline-block">
+            <span className="block">Trading</span>
+            <span className="block">Education</span>
+          </span>
+          . Tous droits réservés.
+        </>
+      ),
       disclaimer: "Contenu éducatif uniquement. Le trading comporte un risque de pertes.",
     },
   }[lang];
@@ -47,7 +65,10 @@ export function Footer() {
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="text-xl font-bold text-white mb-4">Trading Education</h3>
+            <h3 className="text-xl font-bold text-white mb-4">
+              <span className="block">Trading</span>
+              <span className="block">Education</span>
+            </h3>
             <p className="text-sm leading-relaxed text-slate-300 dark:text-slate-200">
               {t.description}
             </p>
