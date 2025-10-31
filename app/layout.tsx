@@ -31,6 +31,7 @@ export const metadata: Metadata = {
     ],
     apple: [{ url: "/favicon.svg", type: "image/svg+xml" }],
   },
+  manifest: "/manifest.json",
   viewport: {
     width: "device-width",
     initialScale: 1,
@@ -46,6 +47,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <link rel="manifest" href="/manifest.json" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
