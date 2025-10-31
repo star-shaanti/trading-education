@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import dynamic from "next/dynamic";
 import { LangProvider } from "@/components/LangContext";
@@ -45,6 +46,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} font-sans antialiased`}>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5343389597650456"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
         <LangProvider>
           <Header />
           <main className="min-h-screen">{children}</main>
