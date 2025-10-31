@@ -1,0 +1,79 @@
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+
+const inter = Inter({ subsets: ["latin", "latin-ext"], variable: "--font-inter" });
+
+export const metadata: Metadata = {
+  title: {
+    default: "Trading 002 Academy | Educational Trading & Media Platform",
+    template: "%s | Trading 002 Academy",
+  },
+  description:
+    "Learn trading with free educational resources, tools, and market analysis. Trading 002 Academy provides guides, calculators, and market insights for beginners and intermediate traders.",
+  keywords: [
+    "trading education",
+    "trading guides",
+    "trading tools",
+    "market analysis",
+    "crypto trading",
+    "forex trading",
+    "trading calculator",
+  ],
+  authors: [{ name: "Trading 002 Academy" }],
+  creator: "Trading 002 Academy",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    alternateLocale: ["fr_FR"],
+    url: "https://trading002academy.com",
+    siteName: "Trading 002 Academy",
+    title: "Trading 002 Academy | Educational Trading & Media Platform",
+    description:
+      "Learn trading with free educational resources, tools, and market analysis.",
+    images: [
+      {
+        url: "/images/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Trading 002 Academy",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Trading 002 Academy",
+    description: "Educational Trading & Media Platform",
+    images: ["/images/og-image.jpg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${inter.variable} font-sans antialiased`}>
+        <Header />
+        <main className="min-h-screen">{children}</main>
+        <Footer />
+      </body>
+    </html>
+  );
+}
+

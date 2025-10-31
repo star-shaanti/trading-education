@@ -1,0 +1,84 @@
+"use client";
+
+import { Section } from "@/components/Section";
+import BackButton from "@/components/BackButton";
+import { useLang } from "@/components/LangContext";
+
+export default function MentionsLegalesPage() {
+  const { lang } = useLang();
+  return (
+    <Section title={lang === "fr" ? "Mentions légales" : "Legal Notice"} variant="default">
+      <BackButton />
+      <div className="max-w-3xl mx-auto prose-custom">
+        <div className="card p-8 mb-8">
+          <h2 className="text-2xl font-bold mb-4">{lang === "fr" ? "Informations du site" : "Website Information"}</h2>
+          <p className="mb-2">
+            <strong>{lang === "fr" ? "Nom du site:" : "Website Name:"}</strong> Trading Education
+          </p>
+          <p className="mb-2">
+            <strong>{lang === "fr" ? "Objectif:" : "Purpose:"}</strong> {lang === "fr" ? "Plateforme éducative proposant guides, outils et informations de marché" : "Educational platform providing trading guides, tools, and market information"}
+          </p>
+        </div>
+
+        <div className="card p-8 mb-8">
+          <h2 className="text-2xl font-bold mb-4">{lang === "fr" ? "Avertissement de responsabilité" : "Disclaimer of Liability"}</h2>
+          <p className="mb-4">
+            {lang === "fr"
+              ? "Les informations de ce site sont fournies à titre éducatif et informatif. Trading Education ne fournit pas de conseils financiers, d'investissement ou de trading."
+              : "The information on this website is provided for educational and informational purposes only. Trading Education does not provide financial, investment, or trading advice."}
+          </p>
+          <p className="mb-4">
+            {lang === "fr"
+              ? "Le trading comporte des risques: n'investissez jamais de l'argent que vous ne pouvez pas vous permettre de perdre. Les performances passées ne garantissent pas les résultats futurs."
+              : "All trading involves risk, and you should never trade with money you cannot afford to lose. Past performance is not indicative of future results."}
+          </p>
+          <p className="mb-4">
+            {lang === "fr"
+              ? "Trading Education n'est pas responsable des pertes ou dommages résultant de l'utilisation des informations, outils ou contenus fournis sur ce site."
+              : "Trading Education is not responsible for any losses or damages resulting from the use of information, tools, or content provided on this website."}
+          </p>
+        </div>
+
+        <div className="card p-8 mb-8">
+          <h2 className="text-2xl font-bold mb-4">{lang === "fr" ? "Contenus tiers" : "Third-Party Content"}</h2>
+          <p className="mb-4">
+            {lang === "fr"
+              ? "Ce site peut inclure des contenus, widgets et liens vers des sites tiers. Nous ne sommes pas responsables de leur contenu, de leur politique de confidentialité ou de leurs conditions d'utilisation."
+              : "This website may include content, widgets, and links to third-party websites. We are not responsible for the content, privacy practices, or terms of service of these external sites."}
+          </p>
+          <p className="mb-4">
+            {lang === "fr"
+              ? "Les widgets TradingView et CoinMarketCap sont utilisés conformément à leurs conditions d'utilisation."
+              : "Widgets from TradingView and CoinMarketCap are used in accordance with their respective terms of service."}
+          </p>
+        </div>
+
+        <div className="card p-8 mb-8">
+          <h2 className="text-2xl font-bold mb-4">{lang === "fr" ? "Propriété intellectuelle" : "Intellectual Property"}</h2>
+          <p className="mb-4">
+            {lang === "fr"
+              ? "Tout le contenu de ce site (textes, graphismes, logos, logiciels, etc.) est la propriété de Trading Education ou de ses fournisseurs de contenu et est protégé par le droit d'auteur."
+              : "All content on this website, including text, graphics, logos, and software, is the property of Trading Education or its content suppliers and is protected by copyright laws."}
+          </p>
+          <p className="mb-4">
+            {lang === "fr"
+              ? "Toute reproduction ou distribution du contenu sans autorisation écrite préalable est interdite."
+              : "You may not reproduce, distribute, or transmit any content from this website without prior written permission."}
+          </p>
+        </div>
+
+        <div className="card p-8">
+          <h2 className="text-2xl font-bold mb-4">{lang === "fr" ? "Contact" : "Contact"}</h2>
+          <p>
+            {lang === "fr" ? "Pour toute demande légale, consultez la page " : "For legal inquiries, please refer to our "}
+            <a href="/politiques" className="text-brand-primary hover:underline">
+              {lang === "fr" ? "Politique de confidentialité" : "Privacy Policy"}
+            </a>{" "}
+            {lang === "fr" ? "." : "page for contact information."}
+          </p>
+        </div>
+      </div>
+    </Section>
+  );
+}
+

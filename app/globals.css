@@ -1,0 +1,134 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #4f46e5;
+  --color-primary-700: #4338ca;
+  --color-secondary: #06b6d4;
+  --color-accent: #f59e0b;
+  --color-success: #10b981;
+  --color-danger: #ef4444;
+}
+
+@layer base {
+  * {
+    @apply border-slate-200 dark:border-slate-800;
+  }
+
+  body {
+    @apply bg-slate-50 dark:bg-[#0B132B] text-slate-900 dark:text-slate-100;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Réduire les animations si préféré */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Boutons */
+  .btn-primary {
+    @apply bg-brand-primary hover:bg-brand-primary-700 text-white font-medium px-6 py-3 rounded-xl transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary;
+  }
+
+  .btn-secondary {
+    @apply border-2 border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-white font-medium px-6 py-3 rounded-xl transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary;
+  }
+
+  .btn-tertiary {
+    @apply text-brand-primary hover:bg-slate-100 dark:hover:bg-slate-800 font-medium px-4 py-2 rounded-lg transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary;
+  }
+
+  /* Cartes */
+  .card {
+    @apply bg-white dark:bg-slate-900 rounded-2xl shadow-soft border border-slate-200 dark:border-slate-800 transition-all hover:-translate-y-0.5 hover:shadow-lg hover:ring-1 hover:ring-brand-primary/10;
+  }
+
+  /* Text gradient */
+  .text-gradient {
+    @apply bg-gradient-to-r from-brand-primary via-brand-secondary to-brand-accent bg-clip-text text-transparent;
+  }
+
+  /* Prose pour contenus */
+  .prose-custom {
+    @apply text-slate-700 dark:text-slate-300;
+  }
+
+  .prose-custom h2 {
+    @apply text-2xl font-bold text-slate-900 dark:text-slate-100 mt-8 mb-4;
+  }
+
+  .prose-custom h3 {
+    @apply text-xl font-semibold text-slate-900 dark:text-slate-100 mt-6 mb-3;
+  }
+
+  .prose-custom p {
+    @apply mb-4 leading-relaxed;
+  }
+
+  .prose-custom ul,
+  .prose-custom ol {
+    @apply mb-4 ml-6 space-y-2;
+  }
+
+  .prose-custom li {
+    @apply leading-relaxed;
+  }
+
+  .prose-custom code {
+    @apply bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded text-sm;
+  }
+
+  .prose-custom blockquote {
+    @apply border-l-4 border-brand-primary pl-4 italic my-4 text-slate-600 dark:text-slate-400;
+  }
+
+  /* Encadrés info */
+  .info-box {
+    @apply bg-indigo-50 dark:bg-slate-800 border-l-4 border-brand-primary p-4 rounded-lg my-6;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Animations pour le popup */
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.3s ease-out;
+  }
+
+  .animate-scale-in {
+    animation: scale-in 0.3s ease-out;
+  }
+}
+

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96">
+  <defs>
+    <style>
+      .candle-shadow {
+        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+      }
+    </style>
+  </defs>
+  
+  <!-- Background circle for better visibility -->
+  <circle cx="48" cy="48" r="46" fill="#1e293b" opacity="0.9"/>
+  
+  <g fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round">
+    <path d="M16 22V12M16 84V68M36 22V8M36 84V60M60 22V12M60 84V68M80 22V6M80 84V64"/>
+  </g>
+  
+  <!-- Bearish candles (red) -->
+  <rect x="8"  y="22" width="16" height="44" rx="3" fill="#DC2626"/>
+  <rect x="52" y="22" width="16" height="44" rx="3" fill="#DC2626"/>
+  
+  <!-- Bullish candles (green) -->
+  <rect x="28" y="22" width="16" height="38" rx="3" fill="#16A34A"/>
+  <rect x="72" y="22" width="16" height="52" rx="3" fill="#16A34A"/>
+</svg>
+
