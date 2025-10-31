@@ -14,7 +14,7 @@ export default function PolitiquesPage() {
           <h2 className="text-2xl font-bold mb-4">{lang === "fr" ? "Politique de confidentialité" : "Privacy Policy"}</h2>
           <p className="mb-4">
             {lang === "fr" 
-              ? <>Trading Education s'engage à protéger votre vie privée. Cette politique explique comment nous collectons, utilisons et protégeons vos informations lorsque vous visitez notre site.</>
+              ? <>Trading Education s&apos;engage à protéger votre vie privée. Cette politique explique comment nous collectons, utilisons et protégeons vos informations lorsque vous visitez notre site.</>
               : <>Trading Education is committed to protecting your privacy. This policy explains how we collect, use, and safeguard your information when you visit our website.</>}
           </p>
 

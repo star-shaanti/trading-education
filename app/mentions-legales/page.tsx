@@ -28,7 +28,7 @@ export default function MentionsLegalesPage() {
           <h2 className="text-2xl font-bold mb-4">{lang === "fr" ? "Avertissement de responsabilité" : "Disclaimer of Liability"}</h2>
           <p className="mb-4">
             {lang === "fr" 
-              ? <>Les informations de ce site sont fournies à titre éducatif et informatif. <span className="inline-block"><span className="block">Trading</span><span className="block">Education</span></span> ne fournit pas de conseils financiers, d'investissement ou de trading.</>
+              ? <>Les informations de ce site sont fournies à titre éducatif et informatif. <span className="inline-block"><span className="block">Trading</span><span className="block">Education</span></span> ne fournit pas de conseils financiers, d&apos;investissement ou de trading.</>
               : <>The information on this website is provided for educational and informational purposes only. <span className="inline-block"><span className="block">Trading</span><span className="block">Education</span></span> does not provide financial, investment, or trading advice.</>}
           </p>
           <p className="mb-4">
@@ -38,7 +38,7 @@ export default function MentionsLegalesPage() {
           </p>
           <p className="mb-4">
             {lang === "fr" 
-              ? <>Trading Education n'est pas responsable des pertes ou dommages résultant de l'utilisation des informations, outils ou contenus fournis sur ce site.</>
+              ? <>Trading Education n&apos;est pas responsable des pertes ou dommages résultant de l&apos;utilisation des informations, outils ou contenus fournis sur ce site.</>
               : <>Trading Education is not responsible for any losses or damages resulting from the use of information, tools, or content provided on this website.</>}
           </p>
         </div>
@@ -61,7 +61,7 @@ export default function MentionsLegalesPage() {
           <h2 className="text-2xl font-bold mb-4">{lang === "fr" ? "Propriété intellectuelle" : "Intellectual Property"}</h2>
           <p className="mb-4">
             {lang === "fr" 
-              ? <>Tout le contenu de ce site (textes, graphismes, logos, logiciels, etc.) est la propriété de <span className="inline-block"><span className="block">Trading</span><span className="block">Education</span></span> ou de ses fournisseurs de contenu et est protégé par le droit d'auteur.</>
+              ? <>Tout le contenu de ce site (textes, graphismes, logos, logiciels, etc.) est la propriété de <span className="inline-block"><span className="block">Trading</span><span className="block">Education</span></span> ou de ses fournisseurs de contenu et est protégé par le droit d&apos;auteur.</>
               : <>All content on this website, including text, graphics, logos, and software, is the property of <span className="inline-block"><span className="block">Trading</span><span className="block">Education</span></span> or its content suppliers and is protected by copyright laws.</>}
           </p>
           <p className="mb-4">
