@@ -25,12 +25,7 @@ export default function PolitiquesPage() {
               : "We may collect information that you provide directly to us, such as when you use our tools or calculators. This information is stored locally in your browser and is not transmitted to our servers."}
           </p>
 
-          <h3 className="text-xl font-semibold mt-6 mb-3">{lang === "fr" ? "Services tiers" : "Third-Party Services"}</h3>
-          <p className="mb-4">
-            {lang === "fr"
-              ? "Notre site utilise des widgets/services tiers (TradingView, CoinMarketCap) susceptibles de collecter des informations selon leurs propres politiques. Nous vous invitons à les consulter."
-              : "Our website uses third-party widgets and services (TradingView, CoinMarketCap) that may collect information according to their own privacy policies. We encourage you to review their privacy policies."}
-          </p>
+          {null}
 
           <h3 className="text-xl font-semibold mt-6 mb-3">{lang === "fr" ? "Sécurité des données" : "Data Security"}</h3>
           <p className="mb-4">
