@@ -30,14 +30,14 @@ export function Nav({ mobile }: NavProps) {
   const currentPath = mounted ? pathname : "";
 
   return (
-    <ul className={`flex ${mobile ? "flex-col gap-2" : "flex-row gap-4"}`}>
+    <ul className={`${mobile ? "grid grid-cols-3 gap-2" : "flex flex-row gap-4"}`}>
       {links.map((link) => {
         const isActive = currentPath === link.href;
         return (
           <li key={link.href}>
             <Link
               href={link.href}
-              className={`px-3 py-2 rounded-lg transition-colors font-medium ${
+              className={`px-3 py-2 rounded-lg transition-colors font-medium ${mobile ? "text-center" : ""} ${
                 isActive
                   ? "text-brand-primary bg-indigo-50 dark:bg-indigo-900/40 dark:text-indigo-300 dark:border dark:border-indigo-700/50"
                   : "text-slate-700 dark:text-slate-200 hover:text-brand-primary hover:bg-slate-100 dark:hover:bg-slate-700 dark:hover:text-white"
