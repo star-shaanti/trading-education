@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect } from "react";
+
 interface AdSlotProps {
   format?: "banner" | "rectangle" | "sidebar";
   className?: string;
@@ -10,32 +14,36 @@ export function AdSlot({ format = "banner", className = "" }: AdSlotProps) {
     sidebar: "min-h-[600px]",
   };
 
+  useEffect(() => {
+    try {
+      // Initialiser les annonces AdSense après le chargement du script
+      if (typeof window !== "undefined" && (window as any).adsbygoogle && (window as any).adsbygoogle.loaded !== true) {
+        ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
+      }
+    } catch (err) {
+      // Erreur silencieuse en cas de problème avec AdSense
+    }
+  }, []);
+
   return (
     <div
       role="complementary"
       aria-label="advertisement"
-      className={`${heights[format]} w-full grid place-items-center
-        bg-slate-50 dark:bg-slate-900 text-slate-400 text-sm
+      className={`${heights[format]} w-full
+        bg-slate-50 dark:bg-slate-900
         border border-slate-200 dark:border-slate-800
         rounded-2xl ${className}`}
     >
-      {/* Placeholder - Replace with AdSense script when ready */}
-      {/* 
-        <script
-          async
-          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX`}
-          crossOrigin="anonymous"
-        ></script>
-        <ins
-          className="adsbygoogle"
-          style={{ display: "block" }}
-          data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-          data-ad-slot="XXXXXXXXXX"
-          data-ad-format={format === "banner" ? "auto" : format}
-        ></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-      */}
-      <span className="text-xs">Advertisement Space</span>
+      <ins
+        className="adsbygoogle"
+        style={{ 
+          display: "block",
+          textAlign: "center",
+        }}
+        data-ad-client="ca-pub-5343389597650456"
+        data-ad-format={format === "banner" ? "auto" : format === "rectangle" ? "auto" : "auto"}
+        data-full-width-responsive="true"
+      />
     </div>
   );
 }

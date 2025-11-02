@@ -4,6 +4,7 @@ import { Section } from "@/components/Section";
 import { Card } from "@/components/Card";
 import BackButton from "@/components/BackButton";
 import { useLang } from "@/components/LangContext";
+import { AdSlot } from "@/components/AdSlot";
 import { useEffect, useState } from "react";
 
 const guides = [
@@ -446,8 +447,29 @@ export default function GuidesPage() {
           ? "Contenus pédagogiques pour tous les niveaux"
           : "Comprehensive educational content for traders of all levels"
       }
-    >
+      >
       <BackButton />
+      
+      <div className="max-w-4xl mx-auto mb-8">
+        <div className="card p-6 mb-6">
+          <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3">
+            {lang === "fr" ? "Guide complet du trading" : "Complete Trading Guide"}
+          </h3>
+          <p className="text-slate-700 dark:text-slate-300 mb-4">
+            {lang === "fr"
+              ? "Nos guides de trading couvrent tous les aspects essentiels pour réussir sur les marchés financiers. De la gestion du risque à la psychologie du trading, en passant par les stratégies techniques avancées, vous trouverez ici des ressources pédagogiques complètes pour tous les niveaux."
+              : "Our trading guides cover all essential aspects for success in financial markets. From risk management to trading psychology, to advanced technical strategies, you'll find comprehensive educational resources for all levels here."}
+          </p>
+          <p className="text-slate-700 dark:text-slate-300">
+            {lang === "fr"
+              ? "Chaque guide est conçu pour être à la fois théorique et pratique, avec des exemples concrets, des études de cas et des checklists que vous pouvez utiliser directement dans votre trading quotidien."
+              : "Each guide is designed to be both theoretical and practical, with concrete examples, case studies, and checklists you can use directly in your daily trading."}
+          </p>
+        </div>
+      </div>
+
+      <AdSlot format="banner" className="mx-auto my-8 container px-4" />
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
         {guides.map((guide) => (
           <Card
@@ -463,6 +485,26 @@ export default function GuidesPage() {
             </div>
           </Card>
         ))}
+      </div>
+
+      <AdSlot format="rectangle" className="mx-auto my-8 container px-4" />
+
+      <div className="max-w-4xl mx-auto mt-8">
+        <div className="card p-6">
+          <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3">
+            {lang === "fr" ? "Comment utiliser ces guides" : "How to Use These Guides"}
+          </h3>
+          <p className="text-slate-700 dark:text-slate-300 mb-4">
+            {lang === "fr"
+              ? "Nous recommandons de commencer par les bases : gestion du risque et psychologie du trading. Ces fondamentaux sont essentiels avant d'aborder les stratégies techniques plus avancées. Ensuite, explorez les guides selon votre style de trading préféré : scalping, day trading ou swing trading."
+              : "We recommend starting with the basics: risk management and trading psychology. These fundamentals are essential before tackling more advanced technical strategies. Then, explore guides according to your preferred trading style: scalping, day trading, or swing trading."}
+          </p>
+          <p className="text-slate-700 dark:text-slate-300">
+            {lang === "fr"
+              ? "N'oubliez pas : la théorie sans pratique ne suffit pas. Utilisez nos outils de calcul, testez les concepts en paper trading, et ne prenez pas de risques avec de l'argent réel tant que vous n'êtes pas certain de votre stratégie."
+              : "Remember: theory without practice is not enough. Use our calculation tools, test concepts in paper trading, and don't risk real money until you're confident in your strategy."}
+          </p>
+        </div>
       </div>
 
       <div className="prose-custom max-w-4xl mx-auto"></div>

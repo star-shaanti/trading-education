@@ -4,6 +4,7 @@ import { Section } from "@/components/Section";
 import { Card } from "@/components/Card";
 import BackButton from "@/components/BackButton";
 import { useLang } from "@/components/LangContext";
+import { AdSlot } from "@/components/AdSlot";
 
 const resources = [
   {
@@ -88,6 +89,27 @@ export default function RessourcesPage() {
       }
     >
       <BackButton />
+      
+      <div className="max-w-4xl mx-auto mb-8">
+        <div className="card p-6 mb-6">
+          <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3">
+            {lang === "fr" ? "Ressources pour traders" : "Resources for Traders"}
+          </h3>
+          <p className="text-slate-700 dark:text-slate-300 mb-4">
+            {lang === "fr"
+              ? "Nous avons sélectionné une liste de ressources utiles pour traders de tous niveaux. Ces plateformes, outils et contenus éducatifs sont choisis pour leur qualité et leur pertinence dans le trading moderne. Que vous cherchiez des signaux de trading, des plateformes d'analyse technique, ou des ressources pédagogiques, vous trouverez ici des options fiables et professionnelles."
+              : "We've curated a list of useful resources for traders of all levels. These platforms, tools, and educational content are selected for their quality and relevance in modern trading. Whether you're looking for trading signals, technical analysis platforms, or educational resources, you'll find reliable and professional options here."}
+          </p>
+          <p className="text-slate-700 dark:text-slate-300">
+            {lang === "fr"
+              ? "Chaque ressource externe a été évaluée pour sa qualité et son utilité. Nous ne sommes pas affiliés à ces services, mais nous les recommandons car ils offrent une valeur réelle aux traders. Faites toujours vos propres recherches avant de vous engager avec un service tiers."
+              : "Each external resource has been evaluated for quality and usefulness. We are not affiliated with these services, but we recommend them because they offer real value to traders. Always conduct your own research before engaging with a third-party service."}
+          </p>
+        </div>
+      </div>
+
+      <AdSlot format="banner" className="mx-auto my-8 container px-4" />
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {list.map((resource, index) => (
           <Card
@@ -125,6 +147,8 @@ export default function RessourcesPage() {
           </Card>
         ))}
       </div>
+
+      <AdSlot format="rectangle" className="mx-auto my-8 container px-4" />
 
       <div className="mt-12 info-box">
         <p className="text-sm text-slate-700 dark:text-slate-300">

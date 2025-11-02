@@ -5,6 +5,7 @@ import { Section } from "@/components/Section";
 import { Card } from "@/components/Card";
 import BackButton from "@/components/BackButton";
 import { useLang } from "@/components/LangContext";
+import { AdSlot } from "@/components/AdSlot";
 
 const tools = [
   {
@@ -85,6 +86,27 @@ export default function OutilsPage() {
       }
     >
       <BackButton />
+      
+      <div className="max-w-4xl mx-auto mb-8">
+        <div className="card p-6 mb-6">
+          <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3">
+            {lang === "fr" ? "Outils essentiels pour traders" : "Essential Tools for Traders"}
+          </h3>
+          <p className="text-slate-700 dark:text-slate-300 mb-4">
+            {lang === "fr"
+              ? "Nos outils de trading sont conçus pour vous aider à prendre des décisions éclairées et à gérer vos risques efficacement. Chaque calculatrice utilise des formules professionnelles validées par des traders expérimentés, vous permettant de calculer précisément vos positions, vos risques et vos rendements potentiels."
+              : "Our trading tools are designed to help you make informed decisions and manage your risks effectively. Each calculator uses professional formulas validated by experienced traders, allowing you to precisely calculate your positions, risks, and potential returns."}
+          </p>
+          <p className="text-slate-700 dark:text-slate-300">
+            {lang === "fr"
+              ? "Ces outils sont gratuits et accessibles 24/7. Utilisez-les avant chaque trade pour vous assurer que vous respectez votre plan de gestion du risque et que vous tradez avec des tailles de position appropriées."
+              : "These tools are free and accessible 24/7. Use them before each trade to ensure you're following your risk management plan and trading with appropriate position sizes."}
+          </p>
+        </div>
+      </div>
+
+      <AdSlot format="banner" className="mx-auto my-8 container px-4" />
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
         {list.map((tool, index) => (
           <Card key={index} title={tool.title} description={tool.description} href={tool.href}>
@@ -92,6 +114,8 @@ export default function OutilsPage() {
           </Card>
         ))}
       </div>
+
+      <AdSlot format="rectangle" className="mx-auto my-8 container px-4" />
 
       <div className="info-box">
         <p className="text-sm text-slate-700 dark:text-slate-300">

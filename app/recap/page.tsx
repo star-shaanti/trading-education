@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Section } from "@/components/Section";
 import { TradingViewChart } from "@/widgets/TradingViewChart";
 import BackButton from "@/components/BackButton";
+import { AdSlot } from "@/components/AdSlot";
 
 type Lang = "en" | "fr";
 
@@ -97,6 +98,27 @@ export default function RecapPage() {
     <>
       <Section title={t.pageTitle} subtitle={t.pageSubtitle}>
         <BackButton />
+        
+        <div className="max-w-4xl mx-auto mb-8">
+          <div className="card p-6 mb-6">
+            <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3">
+              {lang === "fr" ? "Analyse de marché éducative" : "Educational Market Analysis"}
+            </h3>
+            <p className="text-slate-700 dark:text-slate-300 mb-4">
+              {lang === "fr"
+                ? "Cette page vous présente des analyses de marché et des graphiques à des fins éducatives uniquement. Les informations fournies ne constituent pas des conseils financiers ni des recommandations d'investissement. Utilisez ces données pour apprendre à analyser les marchés et à identifier les tendances, mais toujours dans un contexte éducatif."
+                : "This page presents market analysis and charts for educational purposes only. The information provided does not constitute financial advice or investment recommendations. Use this data to learn how to analyze markets and identify trends, but always in an educational context."}
+            </p>
+            <p className="text-slate-700 dark:text-slate-300">
+              {lang === "fr"
+                ? "Pour des signaux de trading en temps réel et validés par des professionnels, consultez les plateformes recommandées ci-dessous. Ces services offrent des signaux multi-marchés avec validation humaine et outils d'analyse avancés."
+                : "For real-time trading signals validated by professionals, check the recommended platforms below. These services offer multi-market signals with human validation and advanced analysis tools."}
+            </p>
+          </div>
+        </div>
+
+        <AdSlot format="banner" className="mx-auto my-8 container px-4" />
+
         <div className="max-w-4xl mx-auto mb-8">
           <div className="card p-6 mb-8">
             <h3 className="text-xl font-bold mb-3">{t.discoverTitle}</h3>
@@ -172,6 +194,8 @@ export default function RecapPage() {
             </div>
           )}
         </div>
+
+        <AdSlot format="rectangle" className="mx-auto my-8 container px-4" />
 
         <div className="info-box">
           <p className="text-sm text-slate-700 dark:text-slate-300">{t.disclaimer}</p>
