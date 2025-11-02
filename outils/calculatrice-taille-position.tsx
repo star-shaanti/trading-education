@@ -72,6 +72,33 @@ function CalculatriceTaillePosition() {
           Calculate the optimal position size based on your risk management parameters.
         </p>
 
+        <div className="card p-8 mb-8">
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-4">
+            Understanding Position Sizing in Trading
+          </h2>
+          <p className="text-slate-700 dark:text-slate-300 mb-4">
+            Position sizing is one of the most critical aspects of risk management in trading. It determines how much capital you risk on each trade relative to your total account size. Proper position sizing protects your account from significant drawdowns while allowing your trading edge to compound over time.
+          </p>
+          <p className="text-slate-700 dark:text-slate-300 mb-4">
+            The fundamental principle is simple: risk a fixed percentage of your account on each trade, typically between 0.5% and 2% depending on your risk tolerance, account size, and trading strategy. This approach ensures that a string of losses won't wipe out your account, while a series of wins can grow it steadily.
+          </p>
+          <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100 mt-6 mb-3">
+            How Position Sizing Works
+          </h3>
+          <p className="text-slate-700 dark:text-slate-300 mb-4">
+            Position size is calculated based on three key factors: your account capital, the percentage you're willing to risk, and the distance to your stop loss. The formula ensures that if your stop loss is hit, you lose exactly the predetermined percentage of your account, no more, no less.
+          </p>
+          <p className="text-slate-700 dark:text-slate-300 mb-4">
+            For example, if you have a $10,000 account and want to risk 2% ($200) on a trade, and your stop loss is 50 pips away, the position size calculator will determine exactly how many lots or units you should trade to ensure a 50-pip move against you results in a $200 loss.
+          </p>
+          <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100 mt-6 mb-3">
+            Why Position Sizing Matters
+          </h3>
+          <p className="text-slate-700 dark:text-slate-300 mb-4">
+            Without proper position sizing, even a profitable trading strategy can fail. Trading too large can lead to emotional decision-making, revenge trading, and account blowouts. Trading too small can limit your growth potential. The calculator below helps you find the perfect balance for your trading style and risk tolerance.
+          </p>
+        </div>
+
         <div className="card p-8 space-y-6">
           <div>
             <label
@@ -210,6 +237,38 @@ function CalculatriceTaillePosition() {
               </div>
             </div>
           )}
+        </div>
+
+        <div className="card p-8 mt-8">
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-4">
+            Best Practices for Position Sizing
+          </h2>
+          <ul className="space-y-3 text-slate-700 dark:text-slate-300 mb-4">
+            <li className="flex items-start">
+              <span className="text-brand-primary mr-2">•</span>
+              <span><strong>Consistency is key:</strong> Use the same risk percentage for similar setups to maintain consistency in your trading approach.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-brand-primary mr-2">•</span>
+              <span><strong>Adjust for volatility:</strong> Consider reducing position size during high volatility periods or before major news events.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-brand-primary mr-2">•</span>
+              <span><strong>Account for slippage:</strong> In volatile markets, actual fills may differ from expected prices, so factor in a small buffer for slippage.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-brand-primary mr-2">•</span>
+              <span><strong>Correlation awareness:</strong> If you're trading multiple correlated pairs simultaneously, reduce individual position sizes to maintain overall risk limits.</span>
+            </li>
+          </ul>
+          <p className="text-slate-700 dark:text-slate-300 mb-4">
+            Remember, position sizing is not about maximizing profits on individual trades—it's about surviving to trade another day and allowing your edge to play out over hundreds of trades. Professional traders understand that preserving capital is the foundation of long-term success.
+          </p>
+          <div className="bg-amber-50 dark:bg-amber-900/20 border-l-4 border-amber-400 p-4 mt-4 rounded">
+            <p className="text-sm text-slate-700 dark:text-slate-300">
+              <strong>Important:</strong> This calculator is provided for educational purposes only. Always verify your calculations with your broker, and remember that trading involves substantial risk of loss. Never risk more than you can afford to lose.
+            </p>
+          </div>
         </div>
       </div>
     </div>

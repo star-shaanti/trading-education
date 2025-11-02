@@ -63,12 +63,27 @@ export default function AProposPage() {
 
         <div className="card p-8">
           <h2 className="text-2xl font-bold mb-4">{lang === "fr" ? "Contact" : "Contact"}</h2>
+          <p className="mb-4">
+            {lang === "fr" 
+              ? "Pour toute question ou demande de support, n'hésitez pas à nous contacter :"
+              : "For any questions or support requests, please feel free to contact us:"}
+          </p>
           <p>
-            {lang === "fr" ? "Pour toute question, consultez la page " : "For questions or feedback, please refer to our "}
+            <a 
+              href="mailto:support@tradingeducationpro.com" 
+              className="text-brand-primary hover:underline font-medium"
+            >
+              support@tradingeducationpro.com
+            </a>
+          </p>
+          <p className="mt-4 text-sm text-slate-600 dark:text-slate-400">
+            {lang === "fr" 
+              ? "Pour les demandes légales, consultez la page "
+              : "For legal inquiries, please refer to the "}
             <a href="/mentions-legales" className="text-brand-primary hover:underline">
               {lang === "fr" ? "Mentions légales" : "Legal Notice"}
-            </a>{" "}
-            {lang === "fr" ? "." : "page."}
+            </a>
+            {lang === "fr" ? "." : " page."}
           </p>
         </div>
       </div>

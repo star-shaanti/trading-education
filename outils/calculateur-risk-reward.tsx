@@ -71,6 +71,30 @@ function CalculateurRiskReward() {
           average wins/losses.
         </p>
 
+        <div className="card p-8 mb-8">
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-4">
+            Understanding Risk/Reward Ratio and Trading Expectancy
+          </h2>
+          <p className="text-slate-700 dark:text-slate-300 mb-4">
+            The risk/reward ratio and trading expectancy are two of the most important metrics for evaluating a trading strategy's long-term profitability. While the risk/reward ratio tells you how much you stand to gain versus how much you risk on each trade, expectancy tells you the average profit or loss you can expect per trade over many trades.
+          </p>
+          <p className="text-slate-700 dark:text-slate-300 mb-4">
+            A positive expectancy doesn't guarantee you'll win every trade, but it means that over a large sample of trades, your strategy should be profitable. This is why professional traders focus on expectancy over win rate—you can have a lower win rate but still be highly profitable if your average wins significantly exceed your average losses.
+          </p>
+          <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100 mt-6 mb-3">
+            How to Calculate Risk/Reward Ratio
+          </h3>
+          <p className="text-slate-700 dark:text-slate-300 mb-4">
+            The risk/reward ratio is calculated by dividing your potential profit by your potential loss. For example, if you risk $100 to make $300, your risk/reward ratio is 1:3. Most professional traders aim for a minimum risk/reward ratio of 1:2, meaning they stand to make at least twice as much as they risk.
+          </p>
+          <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100 mt-6 mb-3">
+            Understanding Trading Expectancy
+          </h3>
+          <p className="text-slate-700 dark:text-slate-300 mb-4">
+            Trading expectancy combines your win rate with your average win and average loss to determine the expected value per trade. It's calculated using the formula: Expectancy = (Win Rate × Average Win) - (Loss Rate × Average Loss). A positive expectancy means your strategy is profitable over time, while a negative expectancy indicates you'll lose money in the long run.
+          </p>
+        </div>
+
         <div className="card p-8 space-y-6">
           <div>
             <label
@@ -189,6 +213,38 @@ function CalculateurRiskReward() {
               </div>
             </div>
           )}
+        </div>
+
+        <div className="card p-8 mt-8">
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-4">
+            Improving Your Risk/Reward and Expectancy
+          </h2>
+          <p className="text-slate-700 dark:text-slate-300 mb-4">
+            There are several ways to improve your trading expectancy: increase your win rate through better entry timing, improve your risk/reward ratio by targeting better profit targets, or reduce your average loss by managing trades more effectively. The best strategies often combine all three approaches.
+          </p>
+          <ul className="space-y-3 text-slate-700 dark:text-slate-300 mb-4">
+            <li className="flex items-start">
+              <span className="text-brand-primary mr-2">•</span>
+              <span><strong>Better entry timing:</strong> Wait for higher-probability setups to improve your win rate without sacrificing risk/reward.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-brand-primary mr-2">•</span>
+              <span><strong>Strategic targets:</strong> Use structure-based targets (support/resistance, swing highs/lows) rather than arbitrary profit goals.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-brand-primary mr-2">•</span>
+              <span><strong>Trade management:</strong> Use partial exits and trailing stops to maximize winners while minimizing losers.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-brand-primary mr-2">•</span>
+              <span><strong>Reality check:</strong> If your expectancy is negative, review your strategy rather than hoping for different results.</span>
+            </li>
+          </ul>
+          <div className="bg-amber-50 dark:bg-amber-900/20 border-l-4 border-amber-400 p-4 mt-4 rounded">
+            <p className="text-sm text-slate-700 dark:text-slate-300">
+              <strong>Important:</strong> Past performance is not indicative of future results. This calculator is for educational purposes only. Always conduct thorough backtesting and forward testing before risking real capital.
+            </p>
+          </div>
         </div>
       </div>
     </div>

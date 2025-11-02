@@ -131,6 +131,14 @@ export function Footer() {
                   {t.aboutUs}
                 </Link>
               </li>
+              <li>
+                <a
+                  href="mailto:support@tradingeducationpro.com"
+                  className="text-slate-300 dark:text-slate-200 hover:text-brand-secondary dark:hover:text-indigo-300 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-secondary rounded"
+                >
+                  {lang === "fr" ? "Support" : "Support"}
+                </a>
+              </li>
             </ul>
           </div>
 

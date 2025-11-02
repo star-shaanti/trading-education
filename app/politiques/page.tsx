@@ -83,7 +83,7 @@ export default function PolitiquesPage() {
           </p>
         </div>
 
-        <div className="card p-8">
+        <div className="card p-8 mb-8">
           <h2 className="text-2xl font-bold mb-4">{lang === "fr" ? "Mises à jour" : "Updates to This Policy"}</h2>
           <p className="mb-4">
             {lang === "fr"
@@ -93,6 +93,23 @@ export default function PolitiquesPage() {
           <p className="text-sm text-slate-600 dark:text-slate-400">
             {lang === "fr" ? "Dernière mise à jour : " : "Last updated: "}
             {new Date().toLocaleDateString(lang === "fr" ? "fr-FR" : "en-US", { year: "numeric", month: "long", day: "numeric" })}
+          </p>
+        </div>
+
+        <div className="card p-8">
+          <h2 className="text-2xl font-bold mb-4">{lang === "fr" ? "Contact" : "Contact"}</h2>
+          <p className="mb-4">
+            {lang === "fr" 
+              ? "Pour toute question concernant cette politique de confidentialité ou pour une demande de support, veuillez nous contacter :"
+              : "For any questions regarding this privacy policy or for support requests, please contact us:"}
+          </p>
+          <p>
+            <a 
+              href="mailto:support@tradingeducationpro.com" 
+              className="text-brand-primary hover:underline font-medium"
+            >
+              support@tradingeducationpro.com
+            </a>
           </p>
         </div>
       </div>

@@ -73,12 +73,27 @@ export default function MentionsLegalesPage() {
 
         <div className="card p-8">
           <h2 className="text-2xl font-bold mb-4">{lang === "fr" ? "Contact" : "Contact"}</h2>
-          <p>
-            {lang === "fr" ? "Pour toute demande légale, consultez la page " : "For legal inquiries, please refer to our "}
+          <p className="mb-4">
+            {lang === "fr" 
+              ? "Pour toute demande de support, veuillez nous contacter :"
+              : "For support requests, please contact us:"}
+          </p>
+          <p className="mb-4">
+            <a 
+              href="mailto:support@tradingeducationpro.com" 
+              className="text-brand-primary hover:underline font-medium"
+            >
+              support@tradingeducationpro.com
+            </a>
+          </p>
+          <p className="text-sm text-slate-600 dark:text-slate-400">
+            {lang === "fr" 
+              ? "Pour les demandes légales spécifiques, consultez la page "
+              : "For specific legal inquiries, please refer to the "}
             <a href="/politiques" className="text-brand-primary hover:underline">
               {lang === "fr" ? "Politique de confidentialité" : "Privacy Policy"}
-            </a>{" "}
-            {lang === "fr" ? "." : "page for contact information."}
+            </a>
+            {lang === "fr" ? "." : " page."}
           </p>
         </div>
       </div>

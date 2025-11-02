@@ -52,6 +52,33 @@ export default function HomePage() {
         </div>
       </div>
 
+      <Section
+        title={lang === "fr" ? "Analyse de marché en temps réel" : "Real-Time Market Analysis"}
+        subtitle={
+          lang === "fr"
+            ? "Accédez aux données de marché les plus récentes et utilisez nos outils d'analyse pour prendre des décisions éclairées"
+            : "Access the latest market data and use our analysis tools to make informed trading decisions"
+        }
+      >
+        <div className="max-w-4xl mx-auto mb-8">
+          <div className="card p-6 mb-6">
+            <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3">
+              {lang === "fr" ? "Pourquoi l'analyse de marché est importante" : "Why Market Analysis Matters"}
+            </h3>
+            <p className="text-slate-700 dark:text-slate-300 mb-4">
+              {lang === "fr"
+                ? "Une analyse de marché solide est la base de toute stratégie de trading réussie. En suivant les tendances, la volatilité et les niveaux clés, les traders peuvent identifier les opportunités et gérer les risques plus efficacement."
+                : "Solid market analysis is the foundation of any successful trading strategy. By tracking trends, volatility, and key levels, traders can identify opportunities and manage risk more effectively."}
+            </p>
+            <p className="text-slate-700 dark:text-slate-300">
+              {lang === "fr"
+                ? "Les outils ci-dessous vous permettent d'accéder à des données de marché en temps réel, d'analyser les graphiques et de suivre les performances de différents actifs financiers. Utilisez ces informations pour compléter votre analyse technique et fondamentale."
+                : "The tools below allow you to access real-time market data, analyze charts, and track performance across different financial assets. Use this information to complement your technical and fundamental analysis."}
+            </p>
+          </div>
+        </div>
+      </Section>
+
       <AdSlot format="banner" className="mx-auto my-8 container px-4" />
 
       <Section
@@ -168,6 +195,34 @@ export default function HomePage() {
           >
             {lang === "fr" ? "Voir tous les outils" : "Explore All Tools"}
           </a>
+        </div>
+      </Section>
+
+      <Section
+        title={lang === "fr" ? "Continuez votre apprentissage" : "Continue Your Learning Journey"}
+        variant="alt"
+        subtitle={
+          lang === "fr"
+            ? "Explorez nos guides détaillés et nos outils pour approfondir vos connaissances en trading"
+            : "Explore our detailed guides and tools to deepen your trading knowledge"
+        }
+      >
+        <div className="max-w-4xl mx-auto mb-8">
+          <div className="card p-6">
+            <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3">
+              {lang === "fr" ? "Apprendre le trading de manière structurée" : "Learning Trading in a Structured Way"}
+            </h3>
+            <p className="text-slate-700 dark:text-slate-300 mb-4">
+              {lang === "fr"
+                ? "Le trading réussi nécessite une compréhension approfondie des marchés financiers, de la gestion des risques et de la psychologie du trading. Nos guides couvrent tous les aspects essentiels, des bases du money management aux stratégies techniques avancées."
+                : "Successful trading requires a deep understanding of financial markets, risk management, and trading psychology. Our guides cover all essential aspects, from money management basics to advanced technical strategies."}
+            </p>
+            <p className="text-slate-700 dark:text-slate-300">
+              {lang === "fr"
+                ? "Que vous soyez débutant ou trader expérimenté, nos ressources éducatives et nos outils de calcul peuvent vous aider à améliorer vos compétences et à prendre des décisions plus éclairées."
+                : "Whether you're a beginner or an experienced trader, our educational resources and calculation tools can help you improve your skills and make more informed decisions."}
+            </p>
+          </div>
         </div>
       </Section>
 
