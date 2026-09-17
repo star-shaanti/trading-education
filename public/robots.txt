@@ -2,5 +2,5 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://trading002academy.com/sitemap.xml
+Sitemap: https://tradingeducationpro.com/sitemap.xml
 
