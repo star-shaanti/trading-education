@@ -1,0 +1,26 @@
+# Dépendances et artefacts locaux (le Dockerfile les reconstruit)
+node_modules
+.next
+out
+build
+coverage
+
+# Git et fichiers d'outillage
+.git
+.gitignore
+.vercel
+
+# Configuration locale / secrets (injectés par Coolify au runtime)
+.env
+.env.*
+*.pem
+
+# Docs et sauvegardes
+*.md
+*.bak
+npm-debug.log*
+yarn-error.log*
+
+# Le Dockerfile et lui-même n'ont pas besoin d'être dans le contexte
+Dockerfile
+.dockerignore
