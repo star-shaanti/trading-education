@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 import dynamic from "next/dynamic";
 import { LangProvider } from "@/components/LangContext";
@@ -32,6 +31,9 @@ export const metadata: Metadata = {
     apple: [{ url: "/favicon.svg", type: "image/svg+xml" }],
   },
   manifest: "/manifest.json",
+  other: {
+    "google-adsense-account": "ca-pub-5343389597650456",
+  },
   viewport: {
     width: "device-width",
     initialScale: 1,
@@ -48,14 +50,18 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="manifest" href="/manifest.json" />
-      </head>
-      <body className={`${inter.variable} font-sans antialiased`}>
-        <Script
+        {/*
+          Code AdSense rendu dans le HTML brut (et non via next/script + afterInteractive,
+          qui ne l'injecte que côté navigateur en JavaScript) afin que le robot
+          d'exploration d'AdSense le détecte sans exécuter de JS.
+        */}
+        <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5343389597650456"
           crossOrigin="anonymous"
-          strategy="afterInteractive"
         />
+      </head>
+      <body className={`${inter.variable} font-sans antialiased`}>
         <LangProvider>
           <Header />
           <main className="min-h-screen">{children}</main>
