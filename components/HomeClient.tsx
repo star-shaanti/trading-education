@@ -27,7 +27,16 @@ import { CMCHeatmapWidget } from "@/widgets/CMCHeatmapWidget";
  * 7. plateformes partenaires,
  * 8. transparence + appel à l'action.
  */
-export function HomeClient({ stats, editorial }: { stats?: ReactNode; editorial?: ReactNode }) {
+export function HomeClient({
+  stats,
+  editorial,
+  isAuthenticated = false,
+}: {
+  stats?: ReactNode;
+  editorial?: ReactNode;
+  /** Membre connecté : les appels à la création de compte sont masqués. */
+  isAuthenticated?: boolean;
+}) {
   const { lang } = useLang();
 
   // Libellés de la page d'accueil (8 langues) : voir lib/i18n/dict.
@@ -267,23 +276,25 @@ export function HomeClient({ stats, editorial }: { stats?: ReactNode; editorial?
           ))}
         </CardGrid>
 
-        <div className="card mt-10 p-8 text-center">
-          <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100">{t.ctaTitle}</h3>
-          <p className="mx-auto mt-2 max-w-2xl text-sm text-slate-600 dark:text-slate-400">
-            {t.ctaText}
-          </p>
-          <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
-            <Link href="/inscription" className="btn-primary text-center">
-              {t.ctaPrimary}
-            </Link>
-            <Link href="/analyses" className="btn-secondary text-center">
-              {t.ctaSecondary}
-            </Link>
-            <Link href="/espace-membre/preferences" className="btn-tertiary text-center">
-              {t.ctaNewsletter}
-            </Link>
+        {!isAuthenticated && (
+          <div className="card mt-10 p-8 text-center">
+            <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100">{t.ctaTitle}</h3>
+            <p className="mx-auto mt-2 max-w-2xl text-sm text-slate-600 dark:text-slate-400">
+              {t.ctaText}
+            </p>
+            <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+              <Link href="/inscription" className="btn-primary text-center">
+                {t.ctaPrimary}
+              </Link>
+              <Link href="/analyses" className="btn-secondary text-center">
+                {t.ctaSecondary}
+              </Link>
+              <Link href="/espace-membre/preferences" className="btn-tertiary text-center">
+                {t.ctaNewsletter}
+              </Link>
+            </div>
           </div>
-        </div>
+        )}
       </Section>
     </>
   );

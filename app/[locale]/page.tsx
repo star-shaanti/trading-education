@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { HomeClient } from "@/components/HomeClient";
 import { HomeStats } from "@/components/home/HomeStats";
 import { LatestContent } from "@/components/LatestContent";
+import { getCurrentUser } from "@/lib/auth";
 import { getDict, getLang, localizedAlternates } from "@/lib/i18n";
 import { openGraphBase } from "@/lib/seo";
 
@@ -31,8 +32,17 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function HomePage() {
+export default async function HomePage() {
+  // Session lue côté serveur : les appels à la création de compte (bandeau de
+  // statistiques et carte d'incitation) sont retirés pour un membre connecté.
+  const user = await getCurrentUser();
   // `stats` et `editorial` sont rendus côté serveur (contenus de la base) puis
   // injectés dans le composant client : contenu indexable + widgets interactifs.
-  return <HomeClient stats={<HomeStats />} editorial={<LatestContent />} />;
+  return (
+    <HomeClient
+      isAuthenticated={Boolean(user)}
+      stats={<HomeStats />}
+      editorial={<LatestContent />}
+    />
+  );
 }

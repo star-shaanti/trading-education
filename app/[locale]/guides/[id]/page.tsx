@@ -2,6 +2,7 @@
 
 import { Link } from "@/components/Link";
 import { useParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { Section } from "@/components/Section";
 import BackButton from "@/components/BackButton";
 import { useLang } from "@/components/LangContext";
@@ -1101,6 +1102,9 @@ const guidesFr: Record<string, { title: string; description: string; content: st
 export default function GuidePage() {
   const { id } = useParams<{ id: string }>();
   const { lang } = useLang();
+  // Session côté client : les appels à la création de compte sont masqués
+  // pour un membre déjà connecté.
+  const { data: session } = useSession();
   const base = guides.find((g) => g.id === id);
   // Les contenus FR enrichis (parité avec l'anglais) ont la priorité sur les
   // versions françaises courtes historiques.
@@ -1142,13 +1146,16 @@ export default function GuidePage() {
                 : "Live webinars and replays"}
             </Link>
           </li>
-          <li>
-            <Link href="/inscription" className="text-brand-primary hover:underline">
-              {lang === "fr"
-                ? "Recevoir les rapports par email (compte gratuit)"
-                : "Get the reports by email (free account)"}
-            </Link>
-          </li>
+          {/* Membre connecté : plus d'appel à la création de compte. */}
+          {!session && (
+            <li>
+              <Link href="/inscription" className="text-brand-primary hover:underline">
+                {lang === "fr"
+                  ? "Recevoir les rapports par email (compte gratuit)"
+                  : "Get the reports by email (free account)"}
+              </Link>
+            </li>
+          )}
         </ul>
       </div>
     </Section>

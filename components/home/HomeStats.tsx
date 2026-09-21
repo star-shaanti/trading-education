@@ -1,4 +1,5 @@
 import { Link } from "@/components/Link";
+import { getCurrentUser } from "@/lib/auth";
 import { getLang } from "@/lib/i18n";
 import { getHomeStats } from "@/lib/queries";
 
@@ -6,10 +7,13 @@ import { getHomeStats } from "@/lib/queries";
  * Bandeau « en un coup d'œil » : compteurs de contenus publiés.
  * Rendu côté serveur (données base de données) — silencieux si la base est
  * vide ou indisponible.
+ *
+ * Le lien « créer un compte gratuit » n'est affiché qu'aux **visiteurs** : un
+ * membre connecté ne doit pas voir d'appel à la création de compte.
  */
 export async function HomeStats() {
   const lang = getLang();
-  const stats = await getHomeStats();
+  const [stats, user] = await Promise.all([getHomeStats(), getCurrentUser()]);
 
   const items = [
     {
@@ -74,13 +78,15 @@ export async function HomeStats() {
             </Link>
           ))}
         </div>
-        <p className="mt-5 text-center text-sm text-slate-500 dark:text-slate-400">
-          <Link href="/inscription" className="text-brand-primary hover:underline dark:text-indigo-300">
-            {lang === "fr"
-              ? "Créer un compte gratuit pour recevoir les rapports par email"
-              : "Create a free account to get the reports by email"}
-          </Link>
-        </p>
+        {!user && (
+          <p className="mt-5 text-center text-sm text-slate-500 dark:text-slate-400">
+            <Link href="/inscription" className="text-brand-primary hover:underline dark:text-indigo-300">
+              {lang === "fr"
+                ? "Créer un compte gratuit pour recevoir les rapports par email"
+                : "Create a free account to get the reports by email"}
+            </Link>
+          </p>
+        )}
       </div>
     </div>
   );

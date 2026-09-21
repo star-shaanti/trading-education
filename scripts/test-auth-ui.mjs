@@ -114,7 +114,22 @@ const memberArea = await page("/espace-membre", cookieHeader);
 check("espace membre → page servie", memberArea.status === 200, String(memberArea.status));
 check("espace membre → bouton « Déconnexion » retiré", !memberArea.body.includes("Déconnexion"));
 
-/* 4. Déconnexion : l'en-tête revient à l'état visiteur après suppression du cookie. */
+/* 4. Appels à la création de compte : visibles pour un visiteur, retirés pour un membre. */
+const statsCta = "Créer un compte gratuit pour recevoir les rapports par email";
+const ctaCard = "Commencez avec un compte gratuit";
+check("visiteur → lien « créer un compte » sur l'accueil", anonymous.body.includes(statsCta));
+check("visiteur → carte « compte gratuit » sur l'accueil", anonymous.body.includes(ctaCard));
+check("connecté → lien « créer un compte » retiré de l'accueil", !connected.body.includes(statsCta));
+check("connecté → carte « compte gratuit » retirée de l'accueil", !connected.body.includes(ctaCard));
+
+/* 5. Même règle sur les pages de guides (composant client lisant la session). */
+const guideCta = "Recevoir les rapports par email (compte gratuit)";
+const guideAnonymous = await page("/fr/guides/rsi");
+const guideConnected = await page("/fr/guides/rsi", cookieHeader);
+check("visiteur → lien « compte gratuit » sur un guide", guideAnonymous.body.includes(guideCta));
+check("connecté → lien « compte gratuit » retiré d'un guide", !guideConnected.body.includes(guideCta));
+
+/* 6. Déconnexion : l'en-tête revient à l'état visiteur après suppression du cookie. */
 const afterLogout = await page("/fr");
 const afterHeader = afterLogout.body.slice(
   afterLogout.body.indexOf("<header"),
