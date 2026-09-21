@@ -1,0 +1,435 @@
+// ---------------------------------------------------------------------------
+// Trading Education — schéma de base de données (PostgreSQL)
+// ---------------------------------------------------------------------------
+// Couvre : utilisateurs & rôles, contenus éditoriaux (articles/catégories/tags),
+// rapports PDF + téléchargements, webinaires + inscriptions, commentaires,
+// abonnés newsletter, emails transactionnels/campagnes, analytics.
+// Aucune donnée bancaire n'est stockée (pas de paiement, pas d'abonnement).
+// ---------------------------------------------------------------------------
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ----------------------------- Enums ---------------------------------------
+
+enum UserRole {
+  VISITOR
+  MEMBER
+  EDITOR
+  ADMIN
+}
+
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum ContentKind {
+  ARTICLE
+  REPORT
+  WEBINAR
+}
+
+enum WebinarStatus {
+  SCHEDULED
+  LIVE
+  ENDED
+  CANCELED
+}
+
+enum RegistrationStatus {
+  REGISTERED
+  CANCELED
+  ATTENDED
+}
+
+enum CommentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum EmailType {
+  WELCOME
+  VERIFY_EMAIL
+  PASSWORD_RESET
+  NEWSLETTER_CONFIRM
+  WEBINAR_CONFIRM
+  WEBINAR_REMINDER
+  NEW_REPORT
+  WEEKLY_DIGEST
+  BULK_CAMPAIGN
+  ADMIN_TEST
+}
+
+enum EmailStatus {
+  QUEUED
+  SENT
+  FAILED
+  SKIPPED
+}
+
+enum AnalyticsType {
+  PAGE_VIEW
+  ARTICLE_VIEW
+  REPORT_VIEW
+  REPORT_DOWNLOAD
+  WEBINAR_VIEW
+  WEBINAR_REGISTER
+  SIGNUP
+  LOGIN
+  COMMENT
+  NEWSLETTER_SUBSCRIBE
+}
+
+// --------------------------- Utilisateurs ----------------------------------
+
+model User {
+  id             String    @id @default(cuid())
+  name           String?
+  email          String    @unique
+  emailVerified  DateTime?
+  image          String?
+  passwordHash   String?
+  role           UserRole  @default(MEMBER)
+  locale         String    @default("fr")
+  // Préférences email (RGPD : opt-in modifiable à tout moment)
+  newsletterOptIn Boolean  @default(true)
+  reportsOptIn    Boolean  @default(true)
+  webinarsOptIn   Boolean  @default(true)
+  consentAt       DateTime?
+  lastLoginAt     DateTime?
+  /** Compte en pause (suspension réversible) : réactivé à la prochaine connexion. */
+  suspendedAt     DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  accounts             Account[]
+  sessions             Session[]
+  subscribers          Subscriber[]
+  articles             Article[]             @relation("ArticleAuthor")
+  comments             Comment[]
+  downloads            ReportDownload[]
+  webinarRegistrations WebinarRegistration[]
+  analyticsEvents      AnalyticsEvent[]
+  emailLogs            EmailLog[]
+  campaigns            Campaign[]
+
+  @@index([role])
+}
+
+// Modèles requis par l'adaptateur NextAuth (OAuth / magic-link futur).
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ------------------------------ Abonnés ------------------------------------
+
+model Subscriber {
+  id               String    @id @default(cuid())
+  email            String    @unique
+  name             String?
+  locale           String    @default("fr")
+  source           String    @default("site")
+  userId           String?
+  newsletterOptIn  Boolean   @default(true)
+  reportsOptIn     Boolean   @default(true)
+  webinarsOptIn    Boolean   @default(true)
+  consentAt        DateTime?
+  confirmedAt      DateTime?
+  confirmToken     String?   @unique
+  unsubscribeToken String    @unique @default(cuid())
+  unsubscribedAt   DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([newsletterOptIn, unsubscribedAt])
+  @@index([confirmedAt])
+}
+
+// ------------------------------- Contenus ----------------------------------
+
+model Category {
+  id          String      @id @default(cuid())
+  slug        String      @unique
+  name        String
+  nameFr      String?
+  description String?
+  kind        ContentKind @default(ARTICLE)
+  sortOrder   Int         @default(0)
+  createdAt   DateTime    @default(now())
+
+  articles Article[]
+  reports  Report[]
+  webinars Webinar[]
+
+  @@index([kind])
+}
+
+model Tag {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  name      String
+  createdAt DateTime @default(now())
+
+  articles Article[]
+  reports  Report[]
+  webinars Webinar[]
+}
+
+model Article {
+  id             String        @id @default(cuid())
+  slug           String        @unique
+  title          String
+  titleFr        String?
+  excerpt        String
+  excerptFr      String?
+  contentHtml    String        @db.Text
+  contentHtmlFr  String?       @db.Text
+  coverImage     String?
+  seoTitle       String?
+  seoDescription String?
+  status         ContentStatus @default(DRAFT)
+  featured       Boolean       @default(false)
+  readingMinutes Int           @default(6)
+  viewCount      Int           @default(0)
+  publishedAt    DateTime?
+  authorId       String?
+  categoryId     String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  author   User?     @relation("ArticleAuthor", fields: [authorId], references: [id], onDelete: SetNull)
+  category Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  tags     Tag[]
+  comments Comment[]
+
+  @@index([status, publishedAt])
+  @@index([categoryId])
+}
+
+model Report {
+  id            String        @id @default(cuid())
+  slug          String        @unique
+  title         String
+  titleFr       String?
+  summary       String
+  summaryFr     String?
+  // fileUrl : soit "storage:<cle>" (fichier local géré par l'admin),
+  // soit une URL absolue (Supabase Storage, S3, Drive...).
+  fileUrl       String
+  fileName      String?
+  fileSizeBytes Int?
+  periodLabel   String?
+  periodStart   DateTime?
+  periodEnd     DateTime?
+  status        ContentStatus @default(DRAFT)
+  featured      Boolean       @default(false)
+  viewCount     Int           @default(0)
+  downloadCount Int           @default(0)
+  publishedAt   DateTime?
+  categoryId    String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  category  Category?        @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  tags      Tag[]
+  downloads ReportDownload[]
+
+  @@index([status, publishedAt])
+}
+
+model ReportDownload {
+  id        String   @id @default(cuid())
+  reportId  String
+  userId    String?
+  email     String?
+  source    String?
+  ipHash    String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  report Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  user   User?  @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([reportId, createdAt])
+  @@index([userId])
+}
+
+model Webinar {
+  id            String        @id @default(cuid())
+  slug          String        @unique
+  title         String
+  titleFr       String?
+  description   String        @db.Text
+  descriptionFr String?       @db.Text
+  // Plateforme : "zoom" | "meet" | "youtube" | "other"
+  platform      String        @default("zoom")
+  startsAt      DateTime
+  endsAt        DateTime?
+  timezone      String        @default("Europe/Paris")
+  joinUrl       String?
+  replayUrl     String?
+  coverImage    String?
+  capacity      Int?
+  status        WebinarStatus @default(SCHEDULED)
+  viewCount     Int           @default(0)
+  publishedAt   DateTime?
+  categoryId    String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  category      Category?              @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  tags          Tag[]
+  registrations WebinarRegistration[]
+
+  @@index([status, startsAt])
+}
+
+model WebinarRegistration {
+  id                 String             @id @default(cuid())
+  webinarId          String
+  userId             String?
+  email              String
+  name               String?
+  // Langue préférée du participant (emails de confirmation/rappel)
+  locale             String             @default("fr")
+  status             RegistrationStatus @default(REGISTERED)
+  confirmationSentAt DateTime?
+  reminderSentAt     DateTime?
+  createdAt          DateTime           @default(now())
+
+  webinar Webinar @relation(fields: [webinarId], references: [id], onDelete: Cascade)
+  user    User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@unique([webinarId, email])
+  @@index([webinarId, status])
+}
+
+// ----------------------------- Commentaires --------------------------------
+
+model Comment {
+  id          String        @id @default(cuid())
+  articleId   String
+  userId      String
+  body        String        @db.Text
+  status      CommentStatus @default(PENDING)
+  ipHash      String?
+  moderatedAt DateTime?
+  moderatedBy String?
+  createdAt   DateTime      @default(now())
+
+  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([articleId, status, createdAt])
+  @@index([status])
+}
+
+// ------------------------------- Emails ------------------------------------
+
+model EmailLog {
+  id         String      @id @default(cuid())
+  type       EmailType
+  to         String
+  subject    String
+  status     EmailStatus @default(QUEUED)
+  provider   String?
+  providerId String?
+  error      String?     @db.Text
+  userId     String?
+  campaignId String?
+  createdAt  DateTime    @default(now())
+
+  user     User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  campaign Campaign? @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+
+  @@index([type, createdAt])
+  @@index([campaignId])
+}
+
+model Campaign {
+  id             String    @id @default(cuid())
+  subject        String
+  bodyHtml       String    @db.Text
+  audience       String    @default("subscribers")
+  sentAt         DateTime?
+  recipientCount Int       @default(0)
+  sentCount      Int       @default(0)
+  failedCount    Int       @default(0)
+  createdById    String?
+  createdAt      DateTime  @default(now())
+
+  createdBy User?      @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  logs      EmailLog[]
+
+  @@index([createdAt])
+}
+
+// ------------------------------ Analytics ----------------------------------
+
+model AnalyticsEvent {
+  id           String        @id @default(cuid())
+  type         AnalyticsType
+  path         String?
+  entityType   String?
+  entitySlug   String?
+  userId       String?
+  subscriberId String?
+  sessionId    String?
+  referrer     String?
+  userAgent    String?
+  ipHash       String?
+  country      String?
+  createdAt    DateTime      @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([type, createdAt])
+  @@index([entityType, entitySlug])
+  @@index([sessionId])
+}

@@ -1,18 +1,28 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
+import { Link } from "@/components/Link";
 import { useLang } from "@/components/LangContext";
+import { getDict } from "@/lib/i18n/dict";
+import { FEATURED_PARTNERS } from "@/lib/partners";
 
+/**
+ * Popup promo (20 s après l'arrivée, une fois par session) :
+ * met en avant les plateformes partenaires (source : lib/partners.ts).
+ * Textes traduits (8 langues) ; les fiches partenaires, disponibles en FR/EN,
+ * affichent l'anglais dans les autres langues.
+ */
 export default function PromoPopup() {
   const { lang } = useLang();
+  const t = getDict(lang);
+  const partnerText = (value: { fr: string; en: string }) => (lang === "fr" ? value.fr : value.en);
   const [isVisible, setIsVisible] = useState(false);
   const [hasBeenShown, setHasBeenShown] = useState(false);
 
   useEffect(() => {
     // Vérifier si le popup a déjà été affiché dans cette session
     if (typeof window === "undefined") return;
-    
+
     const sessionShown = sessionStorage.getItem("promoPopupShown");
     if (sessionShown === "true") {
       setHasBeenShown(true);
@@ -45,6 +55,8 @@ export default function PromoPopup() {
     };
   }, [isVisible]);
 
+  void hasBeenShown;
+
   const handleClose = () => {
     setIsVisible(false);
   };
@@ -57,79 +69,53 @@ export default function PromoPopup() {
         {/* Bouton de fermeture */}
         <button
           onClick={handleClose}
-          className="absolute top-4 right-4 text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors text-2xl font-bold leading-none w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-700"
-          aria-label={lang === "fr" ? "Fermer" : "Close"}
+          className="absolute top-4 end-4 text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors text-2xl font-bold leading-none w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-700"
+          aria-label={t.common.close}
         >
           ×
         </button>
 
-        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 text-center pr-8">
-          {lang === "fr" ? "Explorez nos signaux de trading" : "Explore Our Trading Signals"}
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3 text-center pe-8">
+          {t.home.partnersTitle}
         </h2>
-        <p className="text-slate-600 dark:text-slate-300 mb-6 text-center text-sm">
-          {lang === "fr"
-            ? "Ne manquez aucune opportunité avec nos plateformes de signaux en temps réel."
-            : "Don't miss any opportunity with our real-time signal platforms."}
+        <p className="text-slate-600 dark:text-slate-300 mb-5 text-center text-sm">
+          {t.home.partnersSubtitle}
         </p>
 
-        <div className="flex flex-col gap-4">
-          {/* Premier lien - Real-Time Signals */}
-          <Link
-            href="https://realtimetradesignals.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary text-center flex items-center justify-center gap-2 group"
-            aria-label={lang === "fr" ? "Voir les signaux temps réel multi‑marchés" : "View real-time multi-market signals"}
-            onClick={handleClose}
-          >
-            <div className="flex flex-col items-center flex-1">
-              <span className="text-white font-semibold">{lang === "fr" ? "Voir les signaux temps réel" : "View Real-Time Signals"}</span>
-              <span className="text-white/80 font-normal text-sm">(Forex • Indices • Crypto)</span>
-            </div>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={2.5}
-              stroke="currentColor"
-              className="w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
-              aria-hidden="true"
+        <div className="flex max-h-[55vh] flex-col gap-3 overflow-y-auto pe-1">
+          {FEATURED_PARTNERS.map((partner) => (
+            <Link
+              key={partner.id}
+              href={partner.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-start justify-between gap-3 rounded-xl border border-slate-200 dark:border-slate-700 px-4 py-3 hover:border-brand-primary hover:bg-indigo-50/40 dark:hover:bg-slate-700/50 transition-colors"
+              aria-label={`${partner.name} (${partner.domain})`}
+              onClick={handleClose}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
-              />
-            </svg>
-          </Link>
-
-          {/* Deuxième lien - Crypto 24/7 */}
-          <Link
-            href="https://cryptosignalsx.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-secondary text-center dark:bg-indigo-900/30 dark:border-indigo-400 dark:text-indigo-200 dark:hover:bg-indigo-800/50 dark:hover:text-white dark:hover:border-indigo-300 flex items-center justify-center gap-2 group"
-            aria-label={lang === "fr" ? "Voir les signaux Crypto 24/7" : "View 24/7 Crypto Signals"}
-            onClick={handleClose}
-          >
-            <span className="font-semibold">{lang === "fr" ? "Voir les signaux Crypto 24/7" : "View 24/7 Crypto Signals"}</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={2.5}
-              stroke="currentColor"
-              className="w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
-              />
-            </svg>
-          </Link>
+              <span>
+                <span className="block font-semibold text-slate-900 dark:text-white">
+                  <span aria-hidden="true">{partner.emoji}</span> {partner.name}
+                </span>
+                <span className="block text-xs text-slate-500 dark:text-slate-400">
+                  {partnerText(partner.tagline)}
+                </span>
+              </span>
+              <span
+                className="flex-shrink-0 text-lg text-slate-400 group-hover:text-brand-primary group-hover:translate-x-0.5 transition-transform rtl:-scale-x-100"
+                aria-hidden="true"
+              >
+                ↗
+              </span>
+            </Link>
+          ))}
         </div>
+
+        <p className="mt-4 text-center text-xs text-slate-500 dark:text-slate-400">
+          <Link href="/ressources" className="text-brand-primary hover:underline" onClick={handleClose}>
+            {t.home.partnersAll}
+          </Link>
+        </p>
       </div>
     </div>
   );

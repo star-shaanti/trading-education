@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/components/Link";
 import { ReactNode } from "react";
 
 interface CardProps {
@@ -16,9 +16,9 @@ export function Card({ title, description, href, children, className = "", plain
 
   const inner = (
     <>
-      <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">{title}</h3>
+      <h3 className="mb-2 text-lg font-bold break-words text-slate-900 dark:text-white sm:text-xl">{title}</h3>
       {description && (
-        <p className="text-slate-600 dark:text-slate-100 mb-4">{description}</p>
+        <p className="mb-4 text-slate-600 dark:text-slate-100">{description}</p>
       )}
       {children}
     </>

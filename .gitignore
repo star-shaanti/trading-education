@@ -35,3 +35,12 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# journaux locaux (build, dev, seeds)
+*.log
+
+# prisma
+/prisma/migrations/dev.db*
+
+# stockage local des uploads (PDF rapports, images) — monté en volume en prod
+/storage
+

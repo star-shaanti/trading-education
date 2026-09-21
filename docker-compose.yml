@@ -1,0 +1,27 @@
+# Développement local : PostgreSQL identique à la production (Coolify)
+# Usage : docker compose up -d  puis  npm run db:push && npm run db:seed
+#
+# Port hôte 5433 volontairement choisi pour ne pas entrer en conflit avec un
+# PostgreSQL déjà installé localement sur 5432 (côté Coolify, l'application
+# joint la base via le réseau interne Docker sur le port 5432).
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: te-pg
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: trading
+    ports:
+      - "5433:5432"
+    volumes:
+      - te-pg-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d trading"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  te-pg-data:

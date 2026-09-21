@@ -33,11 +33,11 @@ export function FAQ({ items, title = "Frequently Asked Questions" }: FAQProps) {
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : index)}
-                  className="w-full flex justify-between items-center text-left"
+                  className="w-full flex justify-between items-center text-start gap-2"
                   aria-expanded={isOpen}
                   aria-controls={`faq-answer-${index}`}
                 >
-                  <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 pr-4">
+                  <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 pe-4">
                     {item.question}
                   </h3>
                   <span

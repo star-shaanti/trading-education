@@ -15,6 +15,10 @@ coverage
 .env.*
 *.pem
 
+# Fichiers téléversés localement (volume /app/storage)
+storage
+*.log
+
 # Docs et sauvegardes
 *.md
 *.bak

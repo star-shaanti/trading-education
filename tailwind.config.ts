@@ -24,6 +24,27 @@ const config: Config = {
       boxShadow: {
         soft: "0 2px 8px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
       },
+      /**
+       * Inter est chargée par next/font (variable --font-inter) ; les polices de
+       * repli couvrent l'arabe (Noto Sans Arabic), l'hindi (Noto Sans Devanagari)
+       * et le cyrillique pour les 8 langues d'interface.
+       */
+      fontFamily: {
+        sans: [
+          "var(--font-inter)",
+          "ui-sans-serif",
+          "system-ui",
+          "-apple-system",
+          "Segoe UI",
+          "Roboto",
+          "Noto Sans",
+          "Noto Sans Arabic",
+          "Noto Sans Devanagari",
+          "Helvetica Neue",
+          "Arial",
+          "sans-serif",
+        ],
+      },
       container: {
         center: true,
         padding: "2rem",

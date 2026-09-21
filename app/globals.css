@@ -19,6 +19,22 @@
   body {
     @apply bg-slate-50 dark:bg-[#0B132B] text-slate-900 dark:text-slate-100;
     font-feature-settings: "rlig" 1, "calt" 1;
+    /* Évite tout débordement horizontal sur mobile (URLs, emails, mots longs). */
+    overflow-wrap: break-word;
+  }
+
+  /* Sens de lecture RTL (arabe) : ré-écriture des espacements physiques. */
+  [dir="rtl"] .prose-custom ul,
+  [dir="rtl"] .prose-custom ol {
+    @apply mr-6 ml-0;
+  }
+
+  [dir="rtl"] .prose-custom blockquote {
+    @apply border-l-0 border-r-4 pr-4 pl-0;
+  }
+
+  [dir="rtl"] .info-box {
+    @apply border-l-0 border-r-4;
   }
 
   /* Réduire les animations si préféré */
