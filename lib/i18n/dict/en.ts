@@ -298,6 +298,8 @@ export const en: Dict = {
     forgotSent: "If an account exists with this email, a reset link has just been sent.",
     showPassword: "Show password",
     hidePassword: "Hide password",
+    serverError:
+      "Server error ({status}). Please try again in a moment.",
   },
   member: {
     title: "Member area",

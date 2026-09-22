@@ -52,7 +52,14 @@ export function RegisterForm({ labels }: { labels: Dict["auth"] }) {
       });
 
       const payload = (await response.json().catch(() => ({}))) as { error?: string };
-      if (!response.ok) throw new Error(payload.error ?? "Erreur");
+      // Erreur métier (400 / 409) → message du serveur ; erreur technique
+      // (500, réponse HTML) → message explicite avec le code HTTP, pour ne plus
+      // afficher un simple « Erreur » indéchiffrable.
+      if (!response.ok) {
+        throw new Error(
+          payload.error ?? labels.serverError.replace("{status}", String(response.status))
+        );
+      }
 
       await signIn("credentials", {
         email: form.email,
@@ -63,7 +70,13 @@ export function RegisterForm({ labels }: { labels: Dict["auth"] }) {
       router.push("/espace-membre?bienvenue=1");
       router.refresh();
     } catch (submitError) {
-      setError(submitError instanceof Error ? submitError.message : "Erreur");
+      const message = submitError instanceof Error ? submitError.message : "";
+      // « Failed to fetch » = serveur injoignable ou coupé : on l'annonce clairement.
+      setError(
+        message && message !== "Failed to fetch"
+          ? message
+          : labels.serverError.replace("{status}", "—")
+      );
     } finally {
       setLoading(false);
     }

@@ -294,6 +294,8 @@ export const de: Dict = {
       "Falls ein Konto mit dieser E-Mail existiert, wurde gerade ein Link zum Zurücksetzen gesendet.",
     showPassword: "Passwort anzeigen",
     hidePassword: "Passwort verbergen",
+    serverError:
+      "Serverfehler ({status}). Bitte versuche es in einem Moment erneut.",
   },
   member: {
     title: "Mitgliederbereich",

@@ -308,6 +308,8 @@ export const fr: Dict = {
       "Si un compte existe avec cet email, un lien de réinitialisation vient d'être envoyé.",
     showPassword: "Afficher le mot de passe",
     hidePassword: "Masquer le mot de passe",
+    serverError:
+      "Erreur serveur ({status}). Merci de réessayer dans un instant.",
   },
   member: {
     title: "Espace membre",

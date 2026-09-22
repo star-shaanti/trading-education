@@ -299,6 +299,8 @@ export const it: Dict = {
       "Se esiste un account con questa email, ti abbiamo appena inviato un link di reimpostazione.",
     showPassword: "Mostra la password",
     hidePassword: "Nascondi la password",
+    serverError:
+      "Errore del server ({status}). Riprova tra un momento.",
   },
   member: {
     title: "Area membri",

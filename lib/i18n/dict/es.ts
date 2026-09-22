@@ -296,6 +296,8 @@ export const es: Dict = {
       "Si existe una cuenta con este email, te acabamos de enviar un enlace de restablecimiento.",
     showPassword: "Mostrar contraseña",
     hidePassword: "Ocultar contraseña",
+    serverError:
+      "Error del servidor ({status}). Vuelve a intentarlo en un momento.",
   },
   member: {
     title: "Área de socios",

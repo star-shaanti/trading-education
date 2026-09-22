@@ -124,6 +124,20 @@ check(
   `status=${csrfPreflight.status} (définir NEXTAUTH_SECRET/NEXTAUTH_URL côté hébergeur)`
 );
 
+/* 3 ter. Inscription : la route répond une erreur métier (400) et non une
+   erreur serveur (500) — un 500 signale un environnement incomplet (base de
+   données absente / injoignable). Aucune écriture : payload invalide. */
+const registerProbe = await fetch(`${BASE}/api/inscription`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({}),
+});
+check(
+  "inscription → route vivante et base joignable (400 attendu, pas 500)",
+  registerProbe.status === 400,
+  `status=${registerProbe.status} ${(await registerProbe.text()).slice(0, 120)}`
+);
+
 /* 4. Appels à la création de compte : visibles pour un visiteur, retirés pour un membre. */
 const statsCta = "Créer un compte gratuit pour recevoir les rapports par email";
 const ctaCard = "Commencez avec un compte gratuit";

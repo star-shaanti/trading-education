@@ -212,6 +212,8 @@ export type Dict = {
     forgotSent: string;
     showPassword: string;
     hidePassword: string;
+    /** Message affiché quand le serveur répond une erreur non métier ({status} = code HTTP). */
+    serverError: string;
   };
   member: {
     title: string;

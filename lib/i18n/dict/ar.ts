@@ -293,6 +293,8 @@ export const ar: Dict = {
     forgotSent: "إذا وُجد حساب بهذا البريد، فقد أُرسل رابط الإعادة للتو.",
     showPassword: "إظهار كلمة المرور",
     hidePassword: "إخفاء كلمة المرور",
+    serverError:
+      "خطأ في الخادم ({status}). يرجى المحاولة مرة أخرى بعد قليل.",
   },
   member: {
     title: "منطقة الأعضاء",
