@@ -21,7 +21,8 @@
     "test:auth": "node scripts/test-auth-ui.mjs",
     "test:account": "node scripts/test-account.mjs",
     "check:env": "node scripts/check-env.mjs",
-    "check:env-block": "node scripts/check-env-block.mjs"
+    "check:env-block": "node scripts/check-env-block.mjs",
+    "diagnose:prod": "node scripts/diagnose-prod.mjs"
   },
   "prisma": {
     "seed": "node prisma/seed.mjs"
