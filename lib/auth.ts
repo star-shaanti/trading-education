@@ -2,6 +2,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import bcrypt from "bcryptjs";
 import type { NextAuthOptions } from "next-auth";
 import { getServerSession } from "next-auth";
+import type { Session } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import type { UserRole } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
@@ -99,7 +100,7 @@ export const authOptions: NextAuthOptions = {
       }
     },
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET ?? process.env.AUTH_SECRET,
 };
 
 export type SessionUser = {
@@ -111,9 +112,36 @@ export type SessionUser = {
   locale: string;
 };
 
+/**
+ * Lit la session **sans jamais faire échouer le rendu**.
+ *
+ * Si la configuration NextAuth est incomplète (cas typique : `NEXTAUTH_SECRET`
+ * absent en production), `getServerSession()` lève une `MissingSecret`. Comme
+ * le layout racine lit la session sur **chaque page**, cette exception rendrait
+ * tout le site inaccessible (500 « Application error »). On préfère dégrader :
+ * les pages publiques s'affichent en visiteur, et l'erreur est journalisée une
+ * fois avec la variable à vérifier.
+ */
+let warnedAboutSessionFailure = false;
+
+export async function safeServerSession(): Promise<Session | null> {
+  try {
+    return await getServerSession(authOptions);
+  } catch (error) {
+    if (!warnedAboutSessionFailure) {
+      warnedAboutSessionFailure = true;
+      console.error(
+        "[auth] Session illisible — vérifiez NEXTAUTH_SECRET (et NEXTAUTH_URL) dans les variables d'environnement :",
+        error instanceof Error ? error.message : error
+      );
+    }
+    return null;
+  }
+}
+
 /** Utilisateur connecté (Server Components / route handlers). */
 export async function getCurrentUser(): Promise<SessionUser | null> {
-  const session = await getServerSession(authOptions);
+  const session = await safeServerSession();
   if (!session?.user?.id) return null;
   return {
     id: session.user.id,

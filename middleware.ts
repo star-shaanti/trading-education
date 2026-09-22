@@ -23,7 +23,14 @@ export async function middleware(request: NextRequest) {
 
   // 1. Zones privées : authentification (comportement inchangé).
   if (pathname.startsWith("/admin") || pathname.startsWith("/espace-membre")) {
-    const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
+    // `getToken` peut lever si le secret est absent : on refuse l'accès (fail-closed)
+    // plutôt que de renvoyer une erreur 500.
+    let token: Awaited<ReturnType<typeof getToken>> = null;
+    try {
+      token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET ?? process.env.AUTH_SECRET });
+    } catch {
+      token = null;
+    }
 
     if (!token) {
       const url = new URL("/connexion", request.url);

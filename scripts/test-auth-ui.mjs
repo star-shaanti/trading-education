@@ -114,6 +114,16 @@ const memberArea = await page("/espace-membre", cookieHeader);
 check("espace membre → page servie", memberArea.status === 200, String(memberArea.status));
 check("espace membre → bouton « Déconnexion » retiré", !memberArea.body.includes("Déconnexion"));
 
+/* 3 bis. Préflight : la configuration NextAuth de l'environnement est complète
+   (NEXTAUTH_SECRET présent) — sans quoi /api/auth/csrf répond 500
+   « There is a problem with the server configuration ». */
+const csrfPreflight = await fetch(`${BASE}/api/auth/csrf`);
+check(
+  "environnement → configuration NextAuth valide (NEXTAUTH_SECRET défini)",
+  csrfPreflight.status === 200,
+  `status=${csrfPreflight.status} (définir NEXTAUTH_SECRET/NEXTAUTH_URL côté hébergeur)`
+);
+
 /* 4. Appels à la création de compte : visibles pour un visiteur, retirés pour un membre. */
 const statsCta = "Créer un compte gratuit pour recevoir les rapports par email";
 const ctaCard = "Commencez avec un compte gratuit";

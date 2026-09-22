@@ -1,9 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { getServerSession } from "next-auth";
 import dynamic from "next/dynamic";
-import { authOptions } from "@/lib/auth";
+import { safeServerSession } from "@/lib/auth";
 import { AuthProvider } from "@/components/AuthProvider";
 import { LangProvider } from "@/components/LangContext";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -115,7 +114,9 @@ export default async function RootLayout({
   const lang = getLang();
   const dir = dirOf(lang);
   // Session côté serveur : l'en-tête est rendu avec le bon état de connexion.
-  const session = await getServerSession(authOptions);
+  // `safeServerSession` dégrade en « visiteur » au lieu de planter le rendu si
+  // la configuration NextAuth est incomplète (NEXTAUTH_SECRET manquant).
+  const session = await safeServerSession();
 
   return (
     <html lang={lang} dir={dir} suppressHydrationWarning>
