@@ -19,7 +19,8 @@
     "test:css": "node scripts/test-css.mjs",
     "test:seo": "node scripts/test-seo.mjs",
     "test:auth": "node scripts/test-auth-ui.mjs",
-    "test:account": "node scripts/test-account.mjs"
+    "test:account": "node scripts/test-account.mjs",
+    "check:env": "node scripts/check-env.mjs"
   },
   "prisma": {
     "seed": "node prisma/seed.mjs"
