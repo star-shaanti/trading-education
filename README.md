@@ -92,6 +92,7 @@ seed uses `ADMIN_EMAIL` / `ADMIN_PASSWORD` (defaults in `.env.example`).
 | `npm run db:seed` | Seed the admin, categories, tags and demo content |
 | `npm run db:import-guides` | Import/update the 10 historical guides into the `Article` table (idempotent) |
 | `npm run check:env` | Diagnostic d'environnement : variables obligatoires (dont `NEXTAUTH_SECRET`), connexion PostgreSQL, schéma, administrateur et contenus — en local ou sur une base distante via `DATABASE_URL` |
+| `npm run check:env-block -- bloc.txt` | Vérifie un bloc de variables **avant** de le coller dans Coolify : noms invalides (espaces), gabarits non remplacés, doublons, guillemets manquants |
 | `npm run db:studio` | Prisma Studio (visual data browser) |
 | `npm run test:i18n -- http://localhost:3000` | E2E check of the 8 languages: `<html lang/dir>`, translated markers on `/`, `/analyses`, `/rapports`, `/webinaires`, `/inscription` |
 | `npm run test:seo -- http://localhost:3000` | SEO technique : robots, flux RSS, JSON-LD (Organization/WebSite/Breadcrumb/Article), canonical, `noindex` des filtres, image Open Graph, sitemaps par langue |
