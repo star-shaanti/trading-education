@@ -1,8 +1,8 @@
 /**
  * Import des guides historiques (app/guides/*.tsx) dans la table Article.
  *
- * - Source de vérité du contenu : app/guides/[id]/page.tsx (versions EN et FR)
- *   + app/guides/page.tsx (descriptions de repli côté liste).
+ * - Source de vérité du contenu : app/[locale]/guides/[id]/page.tsx (versions EN et FR)
+ *   + app/[locale]/guides/page.tsx (descriptions de repli côté liste).
  * - Idempotent : upsert par slug (= identifiant de guide existant, ex. "rsi").
  * - Les pages /guides/<id> restent la version canonique ; les articles importés
  *   sont rattachés à la catégorie "guides-education" afin que /analyses/<slug>
@@ -18,9 +18,10 @@ const { PrismaClient } = pkg;
 const prisma = new PrismaClient();
 
 const ROOT = process.cwd();
-const DETAIL_FILE = path.join(ROOT, "app", "guides", "[id]", "page.tsx");
-const LIST_FILE = path.join(ROOT, "app", "guides", "page.tsx");
-const EXTENDED_FR_FILE = path.join(ROOT, "app", "guides", "guides-fr-extended.ts");
+// Chemins post-migration multilingue : les guides vivent sous `app/[locale]/guides`.
+const DETAIL_FILE = path.join(ROOT, "app", "[locale]", "guides", "[id]", "page.tsx");
+const LIST_FILE = path.join(ROOT, "app", "[locale]", "guides", "page.tsx");
+const EXTENDED_FR_FILE = path.join(ROOT, "app", "[locale]", "guides", "guides-fr-extended.ts");
 
 const CATEGORY_SLUG = "guides-education";
 
