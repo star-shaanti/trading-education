@@ -84,6 +84,27 @@ if (!adsHost.startsWith("www.")) {
       );
     }
   }
+
+  /* Redirection `www` → apex (middleware) : la cible ne doit jamais contenir le
+     port interne du conteneur (`…:3000`), qui rend le domaine injoignable
+     (« Ce site est inaccessible »). */
+  const wwwHomeUrl = `${new URL(BASE).protocol}//www.${adsHost}/`;
+  try {
+    const wwwHome = await fetch(wwwHomeUrl, { redirect: "manual" });
+    const location = wwwHome.headers.get("location") ?? "";
+    const portExposed = /:\d+/.test(location);
+    check(
+      `www redirigé vers l'apex sans port interne (${wwwHomeUrl})`,
+      wwwHome.status >= 300 && wwwHome.status < 400 && !portExposed,
+      location
+        ? `HTTP ${wwwHome.status} → ${location}` +
+            (portExposed ? " → port interne exposé : vérifier le middleware (redirection www)" : "")
+        : `HTTP ${wwwHome.status} sans en-tête Location`
+    );
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.log(`INFO redirection www non testée (${message.split("\n")[0]})`);
+  }
 }
 
 /* 2. Configuration NextAuth : 500 ici = NEXTAUTH_SECRET/URL manquant */

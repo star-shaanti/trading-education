@@ -7,11 +7,17 @@ import { getDict } from "@/lib/i18n/dict";
 import { FEATURED_PARTNERS } from "@/lib/partners";
 
 /**
- * Popup promo (20 s après l'arrivée, une fois par session) :
+ * Popup promo (1 minute après l'arrivée sur le site, une fois par session) :
  * met en avant les plateformes partenaires (source : lib/partners.ts).
  * Textes traduits (8 langues) ; les fiches partenaires, disponibles en FR/EN,
  * affichent l'anglais dans les autres langues.
  */
+
+/** Délai avant affichage : le visiteur découvre d'abord la page (aucun popup à l'arrivée). */
+const SHOW_DELAY_MS = 60000; // 1 minute
+/** Durée d'affichage avant fermeture automatique. */
+const AUTO_CLOSE_MS = 20000; // 20 secondes
+
 export default function PromoPopup() {
   const { lang } = useLang();
   const t = getDict(lang);
@@ -29,14 +35,14 @@ export default function PromoPopup() {
       return;
     }
 
-    // Timer pour afficher le popup après 20 secondes
+    // Timer pour afficher le popup 1 minute après l'arrivée sur le site
     const showTimer = setTimeout(() => {
       setIsVisible(true);
       setHasBeenShown(true);
       if (typeof window !== "undefined") {
         sessionStorage.setItem("promoPopupShown", "true");
       }
-    }, 20000); // 20 secondes
+    }, SHOW_DELAY_MS);
 
     return () => clearTimeout(showTimer);
   }, []);
@@ -47,7 +53,7 @@ export default function PromoPopup() {
       // Timer pour fermer automatiquement après 20 secondes
       autoCloseTimer = setTimeout(() => {
         setIsVisible(false);
-      }, 20000); // 20 secondes après l'affichage
+      }, AUTO_CLOSE_MS);
     }
 
     return () => {

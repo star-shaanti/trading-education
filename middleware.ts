@@ -34,7 +34,14 @@ export async function middleware(request: NextRequest) {
   const host = request.headers.get("host") ?? "";
   if (host.startsWith("www.")) {
     const url = request.nextUrl.clone();
-    url.host = host.slice(4);
+    // ⚠️ `nextUrl` est bâtie sur l'adresse interne du serveur (`HOSTNAME:PORT`,
+    // ex. `0.0.0.0:3000` en Docker) et l'API `URL` **conserve le port** quand on
+    // ne réaffecte que `host` : la redirection pointait donc vers
+    // `https://tradingeducationpro.com:3000/...` (injoignable). On retire donc
+    // explicitement le port (celui de l'URL interne comme celui, éventuel, de
+    // l'en-tête `Host`) pour ne publier que l'hôte canonique.
+    url.host = host.slice(4).replace(/:\d+$/, "");
+    url.port = "";
     return NextResponse.redirect(url, 308);
   }
 
