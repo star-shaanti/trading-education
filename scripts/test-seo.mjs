@@ -38,7 +38,32 @@ check("robots.txt → sitemap déclaré", robots.body.includes("Sitemap:"));
 check("robots.txt → pages privées exclues", robots.body.includes("/newsletter/") && robots.body.includes("/admin"));
 check("robots.txt → crawlers IA explicités", robots.body.includes("GPTBot"));
 
-/* 2. Flux RSS */
+/* 1 bis. ads.txt (AdSense) : servi en clair à la racine, jamais localisé
+   (`/fr/ads.txt` renverrait 404 → statut « introuvable » dans AdSense). */
+const ads = await get("/ads.txt");
+check(
+  "ads.txt servi (HTTP 200, text/plain, identifiant éditeur)",
+  ads.status === 200 && ads.type.includes("text/plain") && ads.body.includes("pub-5343389597650456"),
+  `HTTP ${ads.status}${ads.type ? ` · ${ads.type}` : ""}`
+);
+
+/* 1 ter. Sitemap : chaque guide pédagogique déclaré doit être réellement servi.
+   Les guides sont du contenu éditorial réel (≈ 500 à 1 000 mots par langue) :
+   c'est ce que Google mesure pour juger le « volume de contenu » du site. */
+const sitemap = await get("/sitemaps/fr/sitemap.xml");
+check("sitemap.xml servi (XML)", sitemap.status === 200 && sitemap.body.includes("<urlset"));
+const guideUrls = [...sitemap.body.matchAll(/<loc>([^<]*\/guides\/[^<]+)<\/loc>/g)].map((m) => m[1]);
+if (guideUrls.length === 0) {
+  console.log("INFO sitemap : aucun guide déclaré (voir lib/guides.ts et npm run db:import-guides)");
+} else {
+  check(`sitemap → guides déclarés (${guideUrls.length})`, true);
+  for (const url of guideUrls) {
+    const path = url.replace(/^https?:\/\/[^/]+/, "");
+    const guide = await get(path);
+    check(`guide servi ${path}`, guide.status === 200, `HTTP ${guide.status}`);
+  }
+}
+
 const feed = await get("/feed.xml");
 const feedIsXml = feed.type.includes("xml") || feed.body.startsWith("<?xml");
 check("feed.xml servi (XML)", feed.status === 200 && feedIsXml, feed.type);

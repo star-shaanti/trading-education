@@ -228,13 +228,27 @@ colors: {
 
 ### AdSense Integration
 
-To enable AdSense:
+Already wired for publisher `ca-pub-5343389597650456`:
 
-1. Get your AdSense Publisher ID
-2. Edit `components/AdSlot.tsx`
-3. Uncomment the script and ins tags
-4. Replace `ca-pub-XXXXXXXXXXXXXXXX` with your Publisher ID
-5. Replace `data-ad-slot="XXXXXXXXXX"` with your ad slot IDs
+1. Script loader + `google-adsense-account` meta tag: `app/layout.tsx` (raw HTML, not
+   `next/script`, so the AdSense crawler sees it without running JS).
+2. Ad units: `components/AdSlot.tsx` (`data-ad-client`, `data-ad-slot` per placement).
+3. `ads.txt` at `public/ads.txt` — served at the domain root as `text/plain`:
+
+   ```
+   google.com, pub-5343389597650456, DIRECT, f08c47fec0942fa0
+   ```
+
+**"ads.txt: Not found" in AdSense?** The file is fine on
+`https://tradingeducationpro.com/ads.txt` — AdSense queries the *exact* host listed
+under *Sites* in your AdSense account, so a `www.` entry fails while `www` is not
+configured in Coolify (503). Check it in one command:
+
+```bash
+npm run diagnose:prod    # verifies /ads.txt (200 + text/plain + pub id) and the www host
+```
+
+Full details: `docs/EXPLOITATION.md` §13.
 
 ## Building for Production
 

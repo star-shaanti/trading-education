@@ -1,3 +1,4 @@
+import { GUIDE_PATHS } from "@/lib/guides";
 import { SITE_URL } from "@/lib/i18n";
 import { LANGUAGES, isLang } from "@/lib/i18n/languages";
 import { languageAlternates, withLocale } from "@/lib/i18n/locale-path";
@@ -35,6 +36,18 @@ const STATIC_PATHS: Entry[] = [
   { path: "/politiques", lastModified: new Date(), changeFrequency: "yearly", priority: 0.3 },
 ];
 
+/**
+ * Guides pédagogiques : contenu éditorial réel, déclaré aux moteurs même quand
+ * l'import en base n'a pas été joué (`npm run db:import-guides`). Les doublons
+ * éventuels — guide présent à la fois ici et en base — sont éliminés plus bas.
+ */
+const GUIDE_ENTRIES: Entry[] = GUIDE_PATHS.map((path) => ({
+  path,
+  lastModified: new Date(),
+  changeFrequency: "monthly",
+  priority: 0.7,
+}));
+
 /** Échappe les valeurs XML (sécurité + validité du flux). */
 function escapeXml(value: string): string {
   return value
@@ -52,7 +65,8 @@ export async function GET(_request: Request, { params }: { params: { lang: strin
   const lang = params.lang;
   const locale = LANGUAGES.find((language) => language.code === lang)?.locale ?? lang;
 
-  let entries: Entry[] = STATIC_PATHS;
+  // Pages statiques + guides : toujours déclarés, même base indisponible.
+  let entries: Entry[] = [...STATIC_PATHS, ...GUIDE_ENTRIES];
 
   try {
     const [articles, reports, webinars] = await Promise.all([
@@ -73,8 +87,7 @@ export async function GET(_request: Request, { params }: { params: { lang: strin
       }),
     ]);
 
-    entries = [
-      ...STATIC_PATHS,
+    const fromDatabase: Entry[] = [
       ...articles.map((article) => ({
         path: `${isGuideArticle(article.category?.slug) ? "/guides/" : "/analyses/"}${article.slug}`,
         lastModified: article.updatedAt,
@@ -94,8 +107,19 @@ export async function GET(_request: Request, { params }: { params: { lang: strin
         priority: 0.6,
       })),
     ];
+
+    /**
+     * Dédoublonnage par chemin : un guide importé en base
+     * (`npm run db:import-guides`) figure aussi dans `GUIDE_ENTRIES` — la
+     * version base l'emporte, elle porte le vrai `updatedAt`.
+     */
+    entries = [
+      ...new Map(
+        [...STATIC_PATHS, ...GUIDE_ENTRIES, ...fromDatabase].map((entry) => [entry.path, entry])
+      ).values(),
+    ];
   } catch {
-    // Base indisponible : on renvoie au moins les pages statiques.
+    // Base indisponible : on renvoie au moins les pages statiques + les guides.
   }
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>

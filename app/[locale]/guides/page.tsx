@@ -8,6 +8,10 @@ import { AdSlot } from "@/components/AdSlot";
 import { guidesFrExtended } from "./guides-fr-extended";
 import { useEffect, useState } from "react";
 
+/**
+ * ⚠️ Toute nouvelle entrée doit aussi être ajoutée à `GUIDE_IDS`
+ * (`lib/guides.ts`) : cette liste alimente le sitemap et les tests SEO.
+ */
 const guides = [
   {
     id: "rsi",

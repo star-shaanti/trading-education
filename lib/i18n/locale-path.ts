@@ -28,6 +28,7 @@ export const GLOBAL_PREFIXES = [
   "/apple-icon",
   "/manifest.json",
   "/robots.txt",
+  "/ads.txt",
   "/sitemap",
   "/sitemaps",
   "/feed.xml",

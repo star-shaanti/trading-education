@@ -21,6 +21,23 @@ import { canAccessAdminPath } from "@/lib/roles";
 export async function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
 
+  /**
+   * 0. Hôte canonique : tout domaine `www.*` est redirigé (308) vers l'apex.
+   * Le site se déclare sur `https://tradingeducationpro.com` (canoniques,
+   * sitemap, `NEXTAUTH_URL`) : sans cela, Google indexe deux sites miroirs et
+   * l'ads.txt n'est vérifié que sur l'hôte déclaré dans AdSense.
+   *
+   * Note : les fichiers statiques (`/public`, dont `/ads.txt`) ne passent pas
+   * par le middleware (cf. `matcher` plus bas) — indispensable pour qu'AdSense
+   * lise `/ads.txt` **aussi** via `www`.
+   */
+  const host = request.headers.get("host") ?? "";
+  if (host.startsWith("www.")) {
+    const url = request.nextUrl.clone();
+    url.host = host.slice(4);
+    return NextResponse.redirect(url, 308);
+  }
+
   // 1. Zones privées : authentification (comportement inchangé).
   if (pathname.startsWith("/admin") || pathname.startsWith("/espace-membre")) {
     // `getToken` peut lever si le secret est absent : on refuse l'accès (fail-closed)

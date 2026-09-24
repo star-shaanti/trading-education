@@ -20,9 +20,13 @@ function check(label, ok, detail = "") {
 async function get(path) {
   try {
     const response = await fetch(`${BASE}${path}`, { redirect: "manual" });
-    return { status: response.status, body: await response.text() };
+    return {
+      status: response.status,
+      type: response.headers.get("content-type") ?? "",
+      body: await response.text(),
+    };
   } catch (error) {
-    return { status: 0, body: error instanceof Error ? error.message : String(error) };
+    return { status: 0, type: "", body: error instanceof Error ? error.message : String(error) };
   }
 }
 
@@ -31,6 +35,56 @@ console.log(`Cible : ${BASE}\n`);
 /* 1. L'application répond-elle ? (route sans session ni base) */
 const robots = await get("/robots.txt");
 check("application vivante (/robots.txt)", robots.status === 200, `HTTP ${robots.status}`);
+
+/* 1 bis. ads.txt : lu par AdSense à la RACINE du domaine interrogé, en texte
+   brut et sans redirection. Un 404, un 308 vers `/{langue}/ads.txt` ou une page
+   HTML fait afficher « État de l'ads.txt : introuvable » dans AdSense. */
+const ADS_PUB_ID = "pub-5343389597650456";
+const ads = await get("/ads.txt");
+check(
+  "ads.txt servi à la racine (AdSense)",
+  ads.status === 200 && ads.type.includes("text/plain") && ads.body.includes(ADS_PUB_ID),
+  `HTTP ${ads.status}${ads.type ? ` · ${ads.type}` : ""}` +
+    (ads.status !== 200
+      ? " → AdSense affichera « état de l'ads.txt : introuvable »"
+      : ads.body.includes(ADS_PUB_ID)
+        ? ""
+        : ` → la ligne google.com, ${ADS_PUB_ID}, DIRECT, … est absente`)
+);
+
+/* 1 ter. AdSense interroge l'hôte exact du site déclaré dans le compte : si le
+   site y est enregistré en `www`, le sous-domaine doit servir le même fichier. */
+const adsHost = new URL(`${BASE}/ads.txt`).hostname;
+if (!adsHost.startsWith("www.")) {
+  const wwwUrl = `${new URL(BASE).protocol}//www.${adsHost}/ads.txt`;
+  try {
+    const www = await fetch(wwwUrl, { redirect: "manual" });
+    const wwwBody = await www.text();
+    check(
+      `ads.txt accessible via www (${wwwUrl})`,
+      www.status === 200 && wwwBody.includes(ADS_PUB_ID),
+      www.status === 200
+        ? ""
+        : `HTTP ${www.status} → ajouter www.${adsHost} dans Coolify → Domains ` +
+          "(redirection vers le domaine principal) puis relancer le certificat, " +
+          "ou déclarer le site sans www dans AdSense → Sites"
+    );
+  } catch (error) {
+    // Node n'expose le détail (TLS, DNS) que dans `error.cause`.
+    const cause = error instanceof Error && error.cause instanceof Error ? `: ${error.cause.message}` : "";
+    const message = `${error instanceof Error ? error.message : String(error)}${cause}`;
+    if (/ENOTFOUND|EAI_AGAIN/i.test(message)) {
+      console.log(`INFO www.${adsHost} non résolu — contrôle www ignoré`);
+    } else {
+      check(
+        `ads.txt accessible via www (${wwwUrl})`,
+        false,
+        `${message.split("\n")[0]} → certificat/route www absent : à corriger dans Coolify ` +
+          "(Domains + Let's Encrypt) ou à retirer du compte AdSense"
+      );
+    }
+  }
+}
 
 /* 2. Configuration NextAuth : 500 ici = NEXTAUTH_SECRET/URL manquant */
 const csrf = await get("/api/auth/csrf");
@@ -70,8 +124,22 @@ check(
   feed.status === 200 && sitemap.status === 200 && (items > 0 || urls > 12),
   `feed=${items} item(s) · sitemap=${urls} URL(s)` +
     (items === 0 || urls <= 12
-      ? " → base vide ou injoignable : npx prisma migrate deploy && npm run db:seed"
+      ? " → base vide : lancer le seed (docs/EXPLOITATION.md §4.5 — terminal Coolify : npm run db:deploy && npm run db:seed)"
       : "")
+);
+
+/* 4 bis. Volume de contenu : AdSense refuse les sites « à faible contenu ».
+   Pages de contenu réel = analyses + rapports + webinaires + guides. */
+const contentPaths = [...sitemap.body.matchAll(/<loc>([^<]+)<\/loc>/g)]
+  .map((match) => match[1].replace(/^https?:\/\/[^/]+/, ""))
+  .filter((path) => /\/(analyses|rapports|webinaires|guides)\/[^/]+$/.test(path));
+check(
+  `volume de contenu FR (${contentPaths.length} page(s) de contenu réel)`,
+  contentPaths.length >= 10,
+  contentPaths.length >= 10
+    ? ""
+    : "→ Google/AdSense jugent le site « à faible contenu » : npm run db:import-guides " +
+      "(10 guides) + publier des analyses — voir docs/EXPLOITATION.md §14"
 );
 
 /* 5. Inscription (payload invalide : aucune écriture en base) */

@@ -9,6 +9,8 @@ import { useLang } from "@/components/LangContext";
 import { guidesFrExtended } from "../guides-fr-extended";
 
 // Base EN content
+// ⚠️ Toute nouvelle entrée doit aussi être ajoutée à `GUIDE_IDS`
+// (`lib/guides.ts`) : cette liste alimente le sitemap et les tests SEO.
 const guides = [
   { id: "rsi", title: "RSI Indicator Guide", description: "Learn how to use the Relative Strength Index (RSI) to identify overbought and oversold conditions in the market.", content: `
       <h2>Understanding the RSI Indicator</h2>
